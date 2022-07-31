@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'pages/auth/signup_screen.dart';
 import 'pages/auth/login_screen.dart';
+import 'pages/seller/seller_dashboard.dart';
 import 'providers/auth_provider.dart';
 
 void main() {

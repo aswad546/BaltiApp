@@ -18,6 +18,7 @@ class CustomIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     MediaQueryData mediaQuery = MediaQuery.of(context);
     return MaterialButton(
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       minWidth: double.infinity,
       height: 44,
       onPressed: () => onPressHandler(),
@@ -28,13 +29,13 @@ class CustomIconButton extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.only(left: 20),
+            padding: EdgeInsets.only(left: mediaQuery.size.width / 18),
             width: mediaQuery.size.width * 0.668,
             child: Center(
               child: Text(
                 buttonLabel,
                 style: const TextStyle(
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w600,
                     fontSize: 14,
                     color: Colors.white),
               ),

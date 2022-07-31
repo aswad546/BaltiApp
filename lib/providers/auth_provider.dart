@@ -23,7 +23,13 @@ class Auth with ChangeNotifier {
     return null;
   }
 
-  Future<void> login(String email, String password) async {
-    print("Login using $email $password");
+  /* Awaiting backend login */
+  Future<void> login(String phoneNumber, String password) async {
+    print("Login using $phoneNumber $password");
+  }
+
+  Future<void> signUp(
+      String userName, String phoneNumber, String password) async {
+    print("Signing Up");
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'pages/user/login_screen.dart';
+import 'pages/auth/signup_screen.dart';
+import 'pages/auth/login_screen.dart';
 import 'providers/auth_provider.dart';
 
 void main() {
@@ -29,13 +30,20 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Poppins',
             textTheme: const TextTheme(
               labelMedium: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
                 color: Colors.black,
+              ),
+              subtitle2: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w300,
               ),
             ),
           ),
-          home: const LoginScreen(),
+          routes: {
+            '/': (ctx) => const LoginScreen(),
+            SignUpScreen.routeName: (ctx) => const SignUpScreen(),
+          },
         );
       }),
     );

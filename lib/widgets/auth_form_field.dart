@@ -7,6 +7,7 @@ class AuthFormField extends StatefulWidget {
   final Key formFieldKey;
   final TextEditingController fieldController;
   final String? hintText;
+  final TextEditingController? confirmPasswordController;
 
   const AuthFormField({
     Key? key,
@@ -15,6 +16,7 @@ class AuthFormField extends StatefulWidget {
     required this.formFieldKey,
     required this.fieldIcon,
     required this.fieldLabel,
+    this.confirmPasswordController,
     this.hintText,
   }) : super(key: key);
 
@@ -30,18 +32,18 @@ class _AuthFormFieldState extends State<AuthFormField> {
     if (widget.fieldLabel == "Confirm Password") {
       if (value == null || value.isEmpty) {
         return 'Please enter the password again';
-      } /* else if (p1controller.text != value) {
+      } else if (widget.confirmPasswordController!.text != value) {
         return "Password is not same";
-      } */
-      else {
+      } else {
         return null;
       }
     } else if (widget.fieldLabel == "Phone Number") {
       if (value == null || value.isEmpty) {
         return "Please enter a phone number";
-      } else if (!phoneNumberValid.hasMatch(value)) {
+      } /*else if (!phoneNumberValid.hasMatch(value)) {
         return 'Please enter phone number in correct format';
-      } else {
+      } */
+      else {
         return null;
       }
       /* Validation logic for phone number */
@@ -63,13 +65,13 @@ class _AuthFormFieldState extends State<AuthFormField> {
 
   @override
   Widget build(BuildContext context) {
-    TextTheme _textTheme = Theme.of(context).textTheme;
+    TextTheme textTheme = Theme.of(context).textTheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           widget.fieldLabel,
-          style: _textTheme.labelMedium,
+          style: textTheme.labelMedium,
         ),
         const SizedBox(
           height: 10,

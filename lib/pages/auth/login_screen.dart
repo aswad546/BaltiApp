@@ -4,8 +4,10 @@ import 'package:provider/provider.dart';
 import '../../widgets/auth_form_field.dart';
 import '../../widgets/custom_icon_button.dart';
 import '../../providers/auth_provider.dart';
+import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const routeName = '/';
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
@@ -15,12 +17,12 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  final emailController = TextEditingController();
+  final phoneNumberController = TextEditingController();
   final passwordController = TextEditingController();
 
   @override
   void dispose() {
-    emailController.dispose();
+    phoneNumberController.dispose();
     passwordController.dispose();
     super.dispose();
   }
@@ -28,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQuery = MediaQuery.of(context);
+    TextTheme textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
@@ -63,12 +66,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     Icons.phone_android_outlined,
                     color: Colors.black,
                   ),
-                  fieldController: emailController,
+                  fieldController: phoneNumberController,
                 ),
                 SizedBox(
                   height: mediaQuery.size.height * 0.04125,
                 ),
                 AuthFormField(
+                  hintText: "Password",
                   formFieldKey: const ValueKey('password'),
                   fieldLabel: 'Password',
                   fieldIcon: const Icon(Icons.lock, color: Colors.black),
@@ -85,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressHandler: () async {
                     if (_formKey.currentState!.validate()) {
                       await Provider.of<Auth>(context, listen: false).login(
-                        emailController.text,
+                        phoneNumberController.text,
                         passwordController.text,
                       );
                     }
@@ -94,12 +98,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Don't have an account?"),
+                    Text("Don't have an account?", style: textTheme.subtitle2),
                     TextButton(
-                      onPressed: () {},
-                      child: const Text(
+                      style: TextButton.styleFrom(
+                        minimumSize: Size.zero,
+                        padding: EdgeInsets.zero,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushReplacementNamed(SignUpScreen.routeName);
+                      },
+                      child: Text(
                         'Sign up',
-                        style: TextStyle(
+                        style: textTheme.subtitle2!.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w700,
                           decoration: TextDecoration.underline,

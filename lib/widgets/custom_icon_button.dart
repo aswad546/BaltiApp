@@ -4,13 +4,13 @@ class CustomIconButton extends StatelessWidget {
   const CustomIconButton({
     Key? key,
     required this.buttonLabel,
-    required this.icon,
+    this.icon,
     required this.color,
     required this.onPressHandler,
   }) : super(key: key);
 
   final String buttonLabel;
-  final IconData icon;
+  final IconData? icon;
   final Color color;
   final Function onPressHandler;
 
@@ -27,9 +27,10 @@ class CustomIconButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(100),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.only(left: mediaQuery.size.width / 18),
+            // padding: EdgeInsets.only(left: mediaQuery.size.width / 18),
             width: mediaQuery.size.width * 0.668,
             child: Center(
               child: Text(
@@ -41,10 +42,12 @@ class CustomIconButton extends StatelessWidget {
               ),
             ),
           ),
-          Icon(
-            icon,
-            color: Colors.white,
-          ),
+          icon != null
+              ? Icon(
+                  icon,
+                  color: Colors.white,
+                )
+              : SizedBox(),
         ],
       ),
     );

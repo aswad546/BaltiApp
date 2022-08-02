@@ -10,7 +10,7 @@ class Auth with ChangeNotifier {
     return _token != null;
   }
 
-  String get userid {
+  String get userId {
     return _userId;
   }
 

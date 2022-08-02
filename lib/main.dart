@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/auth/signup_screen.dart';
-import 'pages/auth/login_screen.dart';
-import 'pages/seller/seller_dashboard.dart';
-import 'providers/auth_provider.dart';
+import 'pages/user/user_dash_screen.dart';
+import 'providers/AuthProvider.dart';
+import 'providers/BusinessProvider.dart';
+import 'providers/ProductProvider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,15 +22,48 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (ctx) => Auth(),
-        )
+        ),
+        ChangeNotifierProxyProvider<Auth, Businesses>(
+          create: (_) => Businesses(
+            authToken: '',
+            businesses: [],
+            userId: '',
+          ),
+          update: (ctx, auth, previousBusinesses) => Businesses(
+            authToken: 'auth.token!',
+            businesses: previousBusinesses == null
+                ? []
+                : previousBusinesses.getBusinesses,
+            userId: auth.userId,
+          ),
+        ),
+        ChangeNotifierProxyProvider<Auth, Products>(
+          create: (_) => Products(
+            authToken: '',
+            products: [],
+            userId: '',
+          ),
+          update: (ctx, auth, previousProducts) => Products(
+            authToken: 'auth.token!',
+            products:
+                previousProducts == null ? [] : previousProducts.getProducts,
+            userId: auth.userId,
+          ),
+        ),
       ],
       child: Consumer<Auth>(builder: (ctx, auth, _) {
         return MaterialApp(
           title: 'Balti App',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primaryColor: const Color.fromARGB(193, 27, 209, 161),
             fontFamily: 'Poppins',
             textTheme: const TextTheme(
+              headline3: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+              ),
               labelMedium: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
@@ -42,7 +76,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
           routes: {
-            '/': (ctx) => const LoginScreen(),
+            '/': (ctx) => const UserDashScreen(),
             SignUpScreen.routeName: (ctx) => const SignUpScreen(),
           },
         );

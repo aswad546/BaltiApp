@@ -97,7 +97,7 @@ class _AuthFormFieldState extends State<AuthFormField> {
             ),
             hintText: widget.hintText,
             hintStyle: const TextStyle(
-                fontSize: 16, color: Color.fromARGB(48, 0, 0, 0)),
+                fontSize: 14, color: Color.fromARGB(48, 0, 0, 0)),
             contentPadding: const EdgeInsets.symmetric(
               vertical: 0.0,
             ),

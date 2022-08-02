@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../widgets/auth_form_field.dart';
 import '../../widgets/custom_icon_button.dart';
-import '../../providers/auth_provider.dart';
+import '../../providers/AuthProvider.dart';
 import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {

@@ -1,4 +1,3 @@
-import 'package:balti_app/providers/location_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,6 +6,7 @@ import 'pages/user/map_screen.dart';
 import 'pages/user/user_dash_screen.dart';
 import 'providers/auth_provider.dart';
 import 'providers/business_provider.dart';
+import 'providers/location_provider.dart';
 import 'providers/product_provider.dart';
 
 void main() {
@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
           routes: {
             '/': (ctx) => const UserDashScreen(),
             SignUpScreen.routeName: (ctx) => const SignUpScreen(),
-            MapScreen.routeName: (ctx) => const MapScreen(),
+            MapScreen.routeName: (context) => const MapScreen() 
           },
         );
       }),

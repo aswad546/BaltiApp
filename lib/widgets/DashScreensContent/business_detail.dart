@@ -6,8 +6,8 @@ import '../../../widgets/product_card.dart';
 import '../../../widgets/restaurant_cart.dart';
 import '../../models/business.dart';
 import '../../models/product.dart';
-import '../../providers/BusinessProvider.dart';
-import '../../providers/ProductProvider.dart';
+import '../../providers/business_provider.dart';
+import '../../providers/product_provider.dart';
 import '../../utils/size_config.dart';
 
 class BusinessDetail extends StatefulWidget {

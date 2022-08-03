@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../providers/business_provider.dart';
 import '../../widgets/auth_form_field.dart';
 import '../../widgets/custom_icon_button.dart';
-import '../../providers/BusinessProvider.dart';
 import 'product_list.dart';
 
 class AddBusiness extends StatefulWidget {

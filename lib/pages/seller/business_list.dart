@@ -5,8 +5,8 @@ import 'package:balti_app/pages/seller/product_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/BusinessProvider.dart';
 import '../../models/business.dart';
+import '../../providers/business_provider.dart';
 
 class BusinessList extends StatefulWidget {
   const BusinessList({Key? key}) : super(key: key);

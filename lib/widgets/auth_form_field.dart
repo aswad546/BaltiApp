@@ -8,8 +8,6 @@ class AuthFormField extends StatefulWidget {
   final TextEditingController fieldController;
   final String? hintText;
   final TextEditingController? confirmPasswordController;
-  final int? minLines;
-  final int? maxLines;
 
   const AuthFormField({
     Key? key,
@@ -20,8 +18,6 @@ class AuthFormField extends StatefulWidget {
     required this.fieldLabel,
     this.confirmPasswordController,
     this.hintText,
-    this.minLines,
-    this.maxLines,
   }) : super(key: key);
 
   @override
@@ -70,12 +66,6 @@ class _AuthFormFieldState extends State<AuthFormField> {
       } else {
         return null;
       }
-    } else if (widget.fieldLabel == "Description") {
-      if (value == null || value.isEmpty) {
-        return 'Please enter a Description';
-      } else {
-        return null;
-      }
     } else if (widget.fieldLabel == "NTN (optional)") {
       // if (!ntnValid.hasMatch(value)) {
       //   return 'Please enter phone number in correct format';
@@ -100,8 +90,6 @@ class _AuthFormFieldState extends State<AuthFormField> {
           height: 10,
         ),
         TextFormField(
-          minLines: widget.obscureText ? 1 : widget.minLines,
-          maxLines: widget.obscureText ? 1 : widget.maxLines,
           key: widget.formFieldKey,
           obscureText: widget.obscureText,
           style: const TextStyle(
@@ -124,8 +112,7 @@ class _AuthFormFieldState extends State<AuthFormField> {
             hintStyle: const TextStyle(
                 fontSize: 14, color: Color.fromARGB(48, 0, 0, 0)),
             contentPadding: const EdgeInsets.symmetric(
-              vertical: 10.0,
-              horizontal: 10
+              vertical: 0.0,
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(
@@ -133,7 +120,7 @@ class _AuthFormFieldState extends State<AuthFormField> {
               ),
               borderRadius: BorderRadius.circular(20),
             ),
-            prefixIcon: widget.fieldIcon==null ? null:Align(
+            prefixIcon: Align(
               widthFactor: 1,
               heightFactor: 1.0,
               child: widget.fieldIcon,

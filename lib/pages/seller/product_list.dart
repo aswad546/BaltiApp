@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/business.dart';
 import '../../models/product.dart';
-import '../../providers/BusinessProvider.dart';
-import '../../providers/ProductProvider.dart';
+import '../../providers/product_provider.dart';
 import '../../utils/size_config.dart';
 import '../../widgets/product_card.dart';
 

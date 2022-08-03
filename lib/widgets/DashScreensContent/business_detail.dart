@@ -1,3 +1,4 @@
+import 'package:balti_app/widgets/AppBars/home_app_bar.dart';
 import 'package:balti_app/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +34,7 @@ class _BusinessDetailState extends State<BusinessDetail> {
   
   @override
   Widget build(BuildContext context) {
+    MediaQueryData mediaQuery = MediaQuery.of(context);
     SizeConfig().init(context);
     List<Business> businesses = Provider.of<Businesses>(
       context,
@@ -40,44 +42,64 @@ class _BusinessDetailState extends State<BusinessDetail> {
     List<Product> products = Provider.of<Products>(
       context,
     ).products;
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SearchBar(),
-            SizedBox(
-              height: SizeConfig.screenHeight / 72.5,
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                left: SizeConfig.screenWidth / 36,
-                right: SizeConfig.screenWidth / 36,
-                bottom: SizeConfig.screenHeight / 72.5,
+    return Scaffold(
+      appBar: HomeAppBar(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                    height: mediaQuery.size.height*0.28,
+                    width: mediaQuery.size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16.0),
+                      color: Colors.blue,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16.0),
+                      child: Image.asset(
+                        products[4].imageUrl,
+                        colorBlendMode: BlendMode.dstATop,
+                        color: Colors.white.withOpacity(0.9),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+              const SearchBar(),
+              SizedBox(
+                height: SizeConfig.screenHeight / 72.5,
               ),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 1 / 1.08,
-                  crossAxisSpacing: 15,
-                  mainAxisSpacing: 15,
+              Container(
+                margin: EdgeInsets.only(
+                  left: SizeConfig.screenWidth / 36,
+                  right: SizeConfig.screenWidth / 36,
+                  bottom: SizeConfig.screenHeight / 72.5,
                 ),
-                itemCount: products.length,
-                itemBuilder: (BuildContext ctx, int i) {
-                  return ProductCard(
-                    productName: products[i].name,
-                    price: products[i].price.toInt().toString(),
-                    delay: '${products[i].duration.toInt()} min',
-                    isFav: false,
-                    imageUrl: products[i].imageUrl,
-                  );
-                },
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 1 / 1.08,
+                    crossAxisSpacing: 15,
+                    mainAxisSpacing: 15,
+                  ),
+                  itemCount: products.length,
+                  itemBuilder: (BuildContext ctx, int i) {
+                    return ProductCard(
+                      productName: products[i].name,
+                      price: products[i].price.toInt().toString(),
+                      delay: '${products[i].duration.toInt()} min',
+                      isFav: false,
+                      imageUrl: products[i].imageUrl,
+                    );
+                  },
+                ),
               ),
-            ),
-            // Gridview for top products
-          ],
+              // Gridview for top products
+            ],
+          ),
         ),
       ),
     );

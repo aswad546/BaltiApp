@@ -32,4 +32,8 @@ class Auth with ChangeNotifier {
       String userName, String phoneNumber, String password) async {
     print("Signing Up");
   }
+
+  Future<void> logout(String phoneNumber) async {
+    print("Logout from $phoneNumber");
+  }
 }

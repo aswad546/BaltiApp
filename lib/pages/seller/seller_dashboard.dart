@@ -4,43 +4,50 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/custom_icon_button.dart';
+import '../../providers/auth_provider.dart';
 
 class SellerDashboard extends StatefulWidget {
-  const SellerDashboard({Key? key}) : super(key: key);
+  const SellerDashboard({Key? key, required this.phoneNumber})
+      : super(key: key);
 
+  final String phoneNumber;
   @override
   State<SellerDashboard> createState() => _SellerDashboardState();
 }
 
 class _SellerDashboardState extends State<SellerDashboard> {
+  late String phoneNumber;
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQuery = MediaQuery.of(context);
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
-      appBar: AppBar(
-          elevation: 0,
-          backgroundColor: const Color(0xffffffff),
-          leading: Padding(
-            padding: EdgeInsets.only(left: mediaQuery.size.width * 0.032),
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
-              color: Colors.black,
-              iconSize: mediaQuery.size.width * 0.08,
-              onPressed: () {},
-            ),
-          ),
-          actions: [
-            Padding(
-              padding: EdgeInsets.only(right: mediaQuery.size.width * 0.032),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(50),
+        child: AppBar(
+            elevation: 0,
+            backgroundColor: const Color(0xffffffff),
+            leading: Padding(
+              padding: EdgeInsets.only(left: mediaQuery.size.width * 0.032),
               child: IconButton(
-                icon: const Icon(Icons.swap_horiz),
+                icon: const Icon(Icons.arrow_back_ios),
                 color: Colors.black,
-                iconSize: mediaQuery.size.width * 0.08,
+                iconSize: mediaQuery.size.width * 0.07,
                 onPressed: () {},
               ),
             ),
-          ]),
+            actions: [
+              Padding(
+                padding: EdgeInsets.only(right: mediaQuery.size.width * 0.032),
+                child: IconButton(
+                  icon: const Icon(Icons.swap_horiz),
+                  color: Colors.black,
+                  iconSize: mediaQuery.size.width * 0.07,
+                  onPressed: () {},
+                ),
+              ),
+            ]),
+      ),
       body: Padding(
         padding: EdgeInsets.all(mediaQuery.size.width * 0.06),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -153,7 +160,11 @@ class _SellerDashboardState extends State<SellerDashboard> {
           CustomIconButton(
             color: const Color(0xffD11B26),
             buttonLabel: "Log out",
-            onPressHandler: () {},
+            onPressHandler: () async {
+              await Provider.of<Auth>(context, listen: false).logout(
+                phoneNumber,
+              );
+            },
           ),
         ]),
       ),

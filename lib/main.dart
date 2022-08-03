@@ -1,10 +1,15 @@
+import 'package:balti_app/pages/seller/add_business.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/auth/signup_screen.dart';
 import 'pages/auth/login_screen.dart';
 import 'pages/seller/seller_dashboard.dart';
+import 'pages/seller/business_list.dart';
+import 'pages/seller/product_list.dart';
+import 'pages/seller/add_business.dart';
 import 'providers/auth_provider.dart';
+import 'providers/business_list_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,11 +22,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // return MaterialApp(home: BusinessList());
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (ctx) => Auth(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (_) => BusinessesList(),
+        ),
       ],
       child: Consumer<Auth>(builder: (ctx, auth, _) {
         return MaterialApp(
@@ -42,8 +51,9 @@ class MyApp extends StatelessWidget {
             ),
           ),
           routes: {
-            '/': (ctx) => const LoginScreen(),
-            SignUpScreen.routeName: (ctx) => const SignUpScreen(),
+            // '/': (ctx) => const LoginScreen(),
+            // SignUpScreen.routeName: (ctx) => const SignUpScreen(),
+            '/': (_) => const AddBusiness(),
           },
         );
       }),

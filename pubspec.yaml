@@ -38,9 +38,7 @@ dependencies:
   geolocator: ^9.0.1
   google_maps_flutter: ^2.1.10
   geocoding: ^2.0.4
-
-
-
+  image_picker: ^0.8.5+3
 
 
 dev_dependencies:

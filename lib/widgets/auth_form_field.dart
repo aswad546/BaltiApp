@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AuthFormField extends StatefulWidget {
   final bool obscureText;
-  final Icon fieldIcon;
+  final Icon? fieldIcon;
   final String fieldLabel;
   final Key formFieldKey;
   final TextEditingController fieldController;
@@ -14,7 +14,7 @@ class AuthFormField extends StatefulWidget {
     this.obscureText = false,
     required this.fieldController,
     required this.formFieldKey,
-    required this.fieldIcon,
+    this.fieldIcon,
     required this.fieldLabel,
     this.confirmPasswordController,
     this.hintText,
@@ -28,6 +28,7 @@ class _AuthFormFieldState extends State<AuthFormField> {
   String? authFormValidator(value) {
     RegExp phoneNumberValid =
         RegExp(r'^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/gm');
+    RegExp ntnValid = RegExp(r'^[0-9]{8}$');
 
     if (widget.fieldLabel == "Confirm Password") {
       if (value == null || value.isEmpty) {
@@ -59,6 +60,18 @@ class _AuthFormFieldState extends State<AuthFormField> {
       } else {
         return null;
       }
+    } else if (widget.fieldLabel == "Address") {
+      if (value == null || value.isEmpty) {
+        return 'Please enter your Address';
+      } else {
+        return null;
+      }
+    } else if (widget.fieldLabel == "NTN (optional)") {
+      // if (!ntnValid.hasMatch(value)) {
+      //   return 'Please enter phone number in correct format';
+      // } else {
+      //   return null;
+      // }
     }
     return null;
   }

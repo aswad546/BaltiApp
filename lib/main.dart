@@ -1,11 +1,13 @@
+import 'package:balti_app/providers/location_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/auth/signup_screen.dart';
+import 'pages/user/map_screen.dart';
 import 'pages/user/user_dash_screen.dart';
-import 'providers/AuthProvider.dart';
-import 'providers/BusinessProvider.dart';
-import 'providers/ProductProvider.dart';
+import 'providers/auth_provider.dart';
+import 'providers/business_provider.dart';
+import 'providers/product_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,6 +52,9 @@ class MyApp extends StatelessWidget {
             userId: auth.userId,
           ),
         ),
+        ChangeNotifierProvider<Location>(
+          create: (_) => Location(),
+        ),
       ],
       child: Consumer<Auth>(builder: (ctx, auth, _) {
         return MaterialApp(
@@ -78,6 +83,7 @@ class MyApp extends StatelessWidget {
           routes: {
             '/': (ctx) => const UserDashScreen(),
             SignUpScreen.routeName: (ctx) => const SignUpScreen(),
+            MapScreen.routeName: (ctx) => const MapScreen(),
           },
         );
       }),

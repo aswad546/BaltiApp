@@ -1,11 +1,14 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../pages/user/map_screen.dart';
+import '../../providers/location_provider.dart';
 import '../../utils/size_config.dart';
 import '../search_bar.dart';
 
-class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
+class HomeAppBar extends StatefulWidget with PreferredSizeWidget {
   @override
   final Size preferredSize;
 
@@ -15,7 +18,30 @@ class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
         super(key: key);
 
   @override
+  State<HomeAppBar> createState() => _HomeAppBarState();
+}
+
+class _HomeAppBarState extends State<HomeAppBar> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(
+      Duration.zero,
+      () async {
+        await Provider.of<Location>(context, listen: false).setLocation();
+      },
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    double lat = Provider.of<Location>(context).latitude;
+    double lng = Provider.of<Location>(context).longitude;
     SizeConfig().init(context);
     TextTheme textTheme = Theme.of(context).textTheme;
     return AppBar(
@@ -23,7 +49,14 @@ class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
       titleSpacing: 0,
       automaticallyImplyLeading: false,
       title: GestureDetector(
-        onTap: () {}, // Open Google map selection Screen
+        onTap: () {
+          if (lat != -1 && lng != -1) {
+            Navigator.of(context).pushNamed(
+              MapScreen.routeName,
+              arguments: {"latitude": lat, "longitude": lng},
+            );
+          }
+        }, // Open Google map selection Screen
         child: Padding(
           padding: EdgeInsets.only(left: SizeConfig.screenWidth / 36),
           child: Row(
@@ -38,7 +71,10 @@ class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
                 ),
               ),
               Text(
-                'Agrics Town, Lahore',
+                lat == -1 && lng == -1
+                    ? 'Finding you'
+                    : Provider.of<Location>(context, listen: false)
+                        .currentAddress,
                 style: textTheme.headline3,
               ),
             ],

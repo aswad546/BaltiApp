@@ -36,56 +36,59 @@ class _ProductCardState extends State<ProductCard> {
                 16,
               ),
             ),
-            child: Stack(
-              children: [
-                Container(
-                  height: SizeConfig.screenHeight / 4.53125,
-                  width: SizeConfig.screenWidth / 2,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16.0),
-                    child: Image.asset(
-                      widget.imageUrl,
-                      colorBlendMode: BlendMode.dstATop,
-                      color: Colors.white.withOpacity(0.9),
-                      fit: BoxFit.cover,
+            child: LayoutBuilder(builder: (context, constraints) {
+              return Stack(
+                children: [
+                  Container(
+                    height: constraints.maxHeight,
+                    width: constraints.maxWidth,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16.0),
+                      color: Colors.blue,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16.0),
+                      child: Image.asset(
+                        widget.imageUrl,
+                        colorBlendMode: BlendMode.dstATop,
+                        color: Colors.white.withOpacity(0.9),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-                Positioned(
-                  top: SizeConfig.screenHeight / 48.3333,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: SizeConfig.screenHeight / 362.5,
-                      horizontal: SizeConfig.screenWidth / 120,
-                    ),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFFFFEFE),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const Icon(
-                          Icons.timer_outlined,
-                          color: Colors.black,
-                          size: 8,
-                        ),
-                        SizedBox(width: SizeConfig.screenWidth / 240),
-                        Text(
-                          widget.delay,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w300,
-                            fontSize: 8,
+                  Positioned(
+                    top: SizeConfig.screenHeight / 48.3333,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: SizeConfig.screenHeight / 362.5,
+                        horizontal: SizeConfig.screenWidth / 120,
+                      ),
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFFFFEFE),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Icon(
+                            Icons.timer_outlined,
+                            color: Colors.black,
+                            size: 8,
                           ),
-                        ),
-                      ],
+                          SizedBox(width: SizeConfig.screenWidth / 240),
+                          Text(
+                            widget.delay,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 8,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              );
+            }),
           ),
         ),
         Container(

@@ -1,3 +1,6 @@
+import 'package:balti_app/pages/seller/add_business.dart';
+import 'package:balti_app/pages/seller/product_list.dart';
+import 'package:balti_app/widgets/DashScreensContent/business_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -76,8 +79,9 @@ class MyApp extends StatelessWidget {
             ),
           ),
           routes: {
-            '/': (ctx) => const UserDashScreen(),
-            SignUpScreen.routeName: (ctx) => const SignUpScreen(),
+            // '/': (ctx) => const UserDashScreen(),
+            // SignUpScreen.routeName: (ctx) => const SignUpScreen(),
+            '/': (ctx) => const BusinessDetail(),
           },
         );
       }),

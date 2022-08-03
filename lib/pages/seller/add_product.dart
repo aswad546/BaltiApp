@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:balti_app/models/product.dart';
+import 'package:balti_app/pages/seller/product_list.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
@@ -8,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../widgets/auth_form_field.dart';
+import '../../widgets/small_form_field.dart';
 import '../../widgets/custom_icon_button.dart';
 import '../../providers/BusinessProvider.dart';
 import '../../providers/ProductProvider.dart';
@@ -37,8 +40,6 @@ class _AddProductState extends State<AddProduct> {
     );
     if (pickedFile != null) {
       setState(() {
-        print("*********************");
-        print(pickedFile.path);
         imageFile = File(pickedFile.path);
       });
     }
@@ -108,7 +109,7 @@ class _AddProductState extends State<AddProduct> {
                   children: [
                     Container(
                       margin: EdgeInsets.only(
-                        top: mediaQuery.size.height * 0.02,
+                        top: mediaQuery.size.height * 0.02 * 2,
                         bottom: mediaQuery.size.height * 0.02,
                       ),
                       width: mediaQuery.size.height * 0.155,
@@ -144,12 +145,47 @@ class _AddProductState extends State<AddProduct> {
                     SizedBox(
                       height: mediaQuery.size.height * 0.01379,
                     ),
+                    AuthFormField(
+                      hintText: "A brief description of your product",
+                      formFieldKey: const ValueKey('Description'),
+                      fieldLabel: 'Description',
+                      fieldController: descriptionController,
+                      minLines: 5,
+                      maxLines: 10,
+                    ),
+                    SizedBox(
+                      height: mediaQuery.size.height * 0.01379,
+                    ),
+                    Row(
+                      children: [
+                        SmallFormField(
+                            hintText: "Price",
+                            fieldController: priceController,
+                            formFieldKey: const ValueKey('Price'),
+                            fieldLabel: "Price"),
+                        SizedBox(
+                          width: mediaQuery.size.width * 0.07,
+                        ),
+                        SmallFormField(
+                            hintText: "Time in Minutes",
+                            fieldController: durationController,
+                            formFieldKey: const ValueKey('Duration'),
+                            fieldLabel: "Duration"),
+                      ],
+                    ),
+                    SizedBox(
+                      height: mediaQuery.size.height * 3 * 0.01379,
+                    ),
                     CustomIconButton(
                       color: const Color.fromARGB(193, 27, 209, 161),
-                      icon: Icons.login,
                       buttonLabel: "Add",
                       onPressHandler: () async {
-                        if (_formKey.currentState!.validate()) {}
+                        if (_formKey.currentState!.validate()) {
+                          // await Provider.of<Products>(context, listen: false)
+                          //     .addProduct();
+                          // Navigator.pop(context);
+                          print(".................");
+                        }
                       },
                     ),
                   ],

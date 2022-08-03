@@ -1,8 +1,15 @@
+import 'package:balti_app/pages/seller/add_product.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../models/business.dart';
+import '../../models/product.dart';
+import '../../providers/BusinessProvider.dart';
+import '../../providers/ProductProvider.dart';
+import '../../utils/size_config.dart';
+import '../../widgets/product_card.dart';
 
 class ProductList extends StatefulWidget {
   const ProductList({Key? key}) : super(key: key);
@@ -13,8 +20,20 @@ class ProductList extends StatefulWidget {
 
 class _ProductListState extends State<ProductList> {
   @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () async {
+      await Provider.of<Products>(context, listen: false).fetchAndSetProducts();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQuery = MediaQuery.of(context);
+    SizeConfig().init(context);
+    List<Product> products = Provider.of<Products>(
+      context,
+    ).products;
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
       appBar: PreferredSize(
@@ -28,7 +47,9 @@ class _ProductListState extends State<ProductList> {
                 icon: const Icon(Icons.arrow_back_ios),
                 color: Colors.black,
                 iconSize: mediaQuery.size.width * 0.07,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
             ),
             actions: [
@@ -46,8 +67,8 @@ class _ProductListState extends State<ProductList> {
       body: Padding(
           padding: EdgeInsets.only(
             bottom: mediaQuery.size.width * 0.05,
-            right: mediaQuery.size.width * 0.06,
-            left: mediaQuery.size.width * 0.06,
+            right: mediaQuery.size.width * 0.04,
+            left: mediaQuery.size.width * 0.04,
           ),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -59,20 +80,40 @@ class _ProductListState extends State<ProductList> {
                   fontSize: mediaQuery.size.height * 0.056,
                   fontFamily: "Poppins"),
             ),
-            GridView.count(
+            SizedBox(
+              height: mediaQuery.size.height * 0.02,
+            ),
+            GridView.builder(
               shrinkWrap: true,
-              primary: true,
-              crossAxisCount: 2,
-              crossAxisSpacing: mediaQuery.size.height * 0.07,
-              mainAxisSpacing: mediaQuery.size.height * 0.07,
-              children: <Widget>[],
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 1 / 1.08,
+                crossAxisSpacing: 15,
+                mainAxisSpacing: 15,
+              ),
+              itemCount: products.length,
+              itemBuilder: (BuildContext ctx, int i) {
+                return ProductCard(
+                  productName: products[i].name,
+                  price: products[i].price.toInt().toString(),
+                  delay: '${products[i].duration.toInt()} min',
+                  isFav: false,
+                  imageUrl: products[i].imageUrl,
+                );
+              },
             ),
           ])),
       floatingActionButton: Container(
         width: mediaQuery.size.width * 0.155,
         height: mediaQuery.size.height * 0.125,
         child: FloatingActionButton(
-          onPressed: () => {},
+          onPressed: () => {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AddProduct()),
+            )
+          },
           backgroundColor: Color.fromARGB(193, 27, 209, 161),
           child: Icon(
             Icons.add,
@@ -80,7 +121,6 @@ class _ProductListState extends State<ProductList> {
           ),
         ),
       ),
-      
     );
   }
 }

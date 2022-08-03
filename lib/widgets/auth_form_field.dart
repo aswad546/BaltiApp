@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AuthFormField extends StatefulWidget {
   final bool obscureText;
-  final Icon fieldIcon;
+  final Icon? fieldIcon;
   final String fieldLabel;
   final Key formFieldKey;
   final TextEditingController fieldController;
@@ -14,7 +14,7 @@ class AuthFormField extends StatefulWidget {
     this.obscureText = false,
     required this.fieldController,
     required this.formFieldKey,
-    required this.fieldIcon,
+    this.fieldIcon,
     required this.fieldLabel,
     this.confirmPasswordController,
     this.hintText,

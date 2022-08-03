@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../widgets/auth_form_field.dart';
 import '../../widgets/custom_icon_button.dart';
+import '../../widgets/small_form_field.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({Key? key}) : super(key: key);
@@ -106,7 +107,7 @@ class _AddProductState extends State<AddProduct> {
                   children: [
                     Container(
                       margin: EdgeInsets.only(
-                        top: mediaQuery.size.height * 0.02,
+                        top: mediaQuery.size.height * 0.02*2,
                         bottom: mediaQuery.size.height * 0.02,
                       ),
                       width: mediaQuery.size.height * 0.155,
@@ -128,6 +129,9 @@ class _AddProductState extends State<AddProduct> {
                                 )
                               : Image.file(
                                   imageFile!,
+                                  fit: BoxFit.fitWidth,
+                                  width: mediaQuery.size.height * 0.155,
+                                  height: mediaQuery.size.height * 0.155,
                                 )),
                     ),
                     SizedBox(
@@ -141,6 +145,37 @@ class _AddProductState extends State<AddProduct> {
                     ),
                     SizedBox(
                       height: mediaQuery.size.height * 0.01379,
+                    ),
+                    AuthFormField(
+                      hintText: "A brief description of your product",
+                      formFieldKey: const ValueKey('Description'),
+                      fieldLabel: 'Description',
+                      fieldController: descriptionController,
+                      minLines: 5,
+                      maxLines: 10,
+                    ),
+                    SizedBox(
+                      height: mediaQuery.size.height * 0.01379,
+                    ),
+                    Row(
+                      children: [
+                        SmallFormField(
+                            hintText: "Price",
+                            fieldController: priceController,
+                            formFieldKey: const ValueKey('Price'),
+                            fieldLabel: "Price"),
+                        SizedBox(
+                          width: mediaQuery.size.width * 0.07,
+                        ),
+                        SmallFormField(
+                            hintText: "Time in Minutes",
+                            fieldController: durationController,
+                            formFieldKey: const ValueKey('Duration'),
+                            fieldLabel: "Duration"),
+                      ],
+                    ),
+                    SizedBox(
+                      height: mediaQuery.size.height * 3 * 0.01379,
                     ),
                     CustomIconButton(
                       color: const Color.fromARGB(193, 27, 209, 161),

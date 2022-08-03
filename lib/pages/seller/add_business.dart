@@ -106,20 +106,6 @@ class _AddBusinessState extends State<AddBusiness> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // imageFile == null
-                    //     ? Container(
-                    //         margin: EdgeInsets.only(
-                    //           top: mediaQuery.size.height * 0.02,
-                    //           bottom: mediaQuery.size.height * 0.02,
-                    //         ),
-                    //         width: mediaQuery.size.height * 0.155,
-                    //         height: mediaQuery.size.height * 0.155,
-                    //         child: Image.file(
-                    //           imageFile!,
-                    //           fit: BoxFit.cover,
-                    //         ),
-                    //       )
-                    //     :
                     Container(
                       margin: EdgeInsets.only(
                         top: mediaQuery.size.height * 0.02,
@@ -144,6 +130,9 @@ class _AddBusinessState extends State<AddBusiness> {
                                 )
                               : Image.file(
                                   imageFile!,
+                                  fit: BoxFit.fitWidth,
+                                  width: mediaQuery.size.height * 0.155,
+                                  height: mediaQuery.size.height * 0.155,
                                 )),
                     ),
                     SizedBox(

@@ -28,6 +28,7 @@ class _AuthFormFieldState extends State<AuthFormField> {
   String? authFormValidator(value) {
     RegExp phoneNumberValid =
         RegExp(r'^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/gm');
+    RegExp ntnValid = RegExp(r'^[0-9]{8}$');
 
     if (widget.fieldLabel == "Confirm Password") {
       if (value == null || value.isEmpty) {
@@ -59,6 +60,18 @@ class _AuthFormFieldState extends State<AuthFormField> {
       } else {
         return null;
       }
+    } else if (widget.fieldLabel == "Address") {
+      if (value == null || value.isEmpty) {
+        return 'Please enter your Address';
+      } else {
+        return null;
+      }
+    } else if (widget.fieldLabel == "NTN (optional)") {
+      // if (!ntnValid.hasMatch(value)) {
+      //   return 'Please enter phone number in correct format';
+      // } else {
+      //   return null;
+      // }
     }
     return null;
   }

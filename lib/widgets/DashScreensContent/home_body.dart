@@ -5,8 +5,8 @@ import '../../../widgets/product_card.dart';
 import '../../../widgets/restaurant_cart.dart';
 import '../../models/business.dart';
 import '../../models/product.dart';
-import '../../providers/BusinessProvider.dart';
-import '../../providers/ProductProvider.dart';
+import '../../providers/business_provider.dart';
+import '../../providers/product_provider.dart';
 import '../../utils/size_config.dart';
 
 class HomeScreenBody extends StatefulWidget {
@@ -104,11 +104,11 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
               child: GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio: 1 / 1.08,
-                  crossAxisSpacing: 15,
-                  mainAxisSpacing: 15,
+                  crossAxisSpacing: SizeConfig.screenWidth / 24,
+                  mainAxisSpacing: SizeConfig.screenHeight / 48.33,
                 ),
                 itemCount: products.length,
                 itemBuilder: (BuildContext ctx, int i) {

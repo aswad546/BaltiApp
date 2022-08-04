@@ -84,10 +84,10 @@ class MyApp extends StatelessWidget {
             ),
           ),
           routes: {
-            '/': (ctx) => const AddBusiness(),
-            // '/': (ctx) => const UserDashScreen(),
-            // SignUpScreen.routeName: (ctx) => const SignUpScreen(),
-            // MapScreen.routeName: (context) => const MapScreen() 
+            // '/': (ctx) => const AddBusiness(),
+            '/': (ctx) => const UserDashScreen(),
+            SignUpScreen.routeName: (ctx) => const SignUpScreen(),
+            MapScreen.routeName: (context) => const MapScreen()
           },
         );
       }),

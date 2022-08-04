@@ -63,6 +63,7 @@ class Location with ChangeNotifier {
     lng = 0 + pos.longitude;
 
     await setAddress(lat, lng, true);
+
     notifyListeners();
   }
 
@@ -88,9 +89,9 @@ class Location with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> overwriteLocation(double lat, double lng) async {
-    lat = lat;
-    lng = lng;
+  Future<void> overwriteLocation(double l, double lg) async {
+    lat = l;
+    lng = lg;
     await setAddress(lat, lng, true);
     notifyListeners();
   }

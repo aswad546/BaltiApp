@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/location_provider.dart';
+import '../../utils/size_config.dart';
 import '../../widgets/custom_icon_button.dart';
 
 class MapScreen extends StatefulWidget {
@@ -24,7 +25,7 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool submitActive = true;
+    SizeConfig().init(context);
     double lat = (ModalRoute.of(context)?.settings.arguments
         as Map<String, double>)["latitude"]!;
     double lng = (ModalRoute.of(context)?.settings.arguments
@@ -36,7 +37,7 @@ class _MapScreenState extends State<MapScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              height: 550,
+              height: SizeConfig.screenHeight / 1.32,
               child: Stack(
                 children: [
                   GoogleMap(
@@ -45,7 +46,6 @@ class _MapScreenState extends State<MapScreen> {
                       zoom: 20,
                     ),
                     onCameraMove: (CameraPosition position) {
-                      submitActive = false;
                       lat = position.target.latitude;
                       lng = position.target.longitude;
                     },
@@ -56,7 +56,6 @@ class _MapScreenState extends State<MapScreen> {
                         address = Provider.of<Location>(context, listen: false)
                             .currentPickedAddress;
                       }
-                      submitActive = true;
                     },
                     mapType: MapType.normal,
                     mapToolbarEnabled: false,
@@ -66,14 +65,15 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                   Center(
                     child: Container(
-                      height: 200,
+                      height: SizeConfig.screenHeight / 3.625,
                       margin: const EdgeInsets.only(bottom: 80),
                       child: Image.asset("assets/images/map_pin_alt.png",
-                          height: 70, width: 70),
+                          height: SizeConfig.screenWidth / 5.143,
+                          width: SizeConfig.screenWidth / 5.143),
                     ),
                   ),
                   Positioned(
-                    top: 20,
+                    top: SizeConfig.screenHeight / 36.25,
                     child: IconButton(
                       icon: const Icon(Icons.arrow_back),
                       onPressed: () {
@@ -85,12 +85,12 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
             Container(
-              height: 150,
+              height: SizeConfig.screenHeight / 4.8333,
               decoration: const BoxDecoration(
                 color: Colors.white,
               ),
               child: Padding(
-                padding: const EdgeInsets.all(20),
+                padding: EdgeInsets.all(SizeConfig.screenWidth / 18),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,9 +114,7 @@ class _MapScreenState extends State<MapScreen> {
                       );
                     }),
                     CustomIconButton(
-                      color: submitActive == true
-                          ? const Color.fromARGB(193, 27, 209, 161)
-                          : Colors.grey.withOpacity(0.5),
+                      color: const Color.fromARGB(193, 27, 209, 161),
                       icon: Icons.navigate_next_outlined,
                       buttonLabel: "Confirm",
                       onPressHandler: () async {

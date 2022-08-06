@@ -8,6 +8,7 @@ class Product with ChangeNotifier {
   final double rating;
   final double duration;
   final String imageUrl;
+  final List<String> images;
   bool isFav;
 
   Product({
@@ -18,6 +19,7 @@ class Product with ChangeNotifier {
     required this.rating,
     required this.duration,
     required this.imageUrl,
+    required this.images,
     this.isFav = false,
   });
 

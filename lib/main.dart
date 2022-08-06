@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/auth/signup_screen.dart';
+import 'pages/user/edit_profile_screen.dart';
+import 'pages/user/explore_screen.dart';
 import 'pages/user/map_screen.dart';
+import 'pages/user/product_detail_screen.dart';
+import 'pages/user/settings_screen.dart';
 import 'pages/user/user_dash_screen.dart';
 import 'providers/auth_provider.dart';
 import 'providers/business_provider.dart';
@@ -85,7 +89,7 @@ class MyApp extends StatelessWidget {
           ),
           routes: {
             // '/': (ctx) => const AddBusiness(),
-            '/': (ctx) => const UserDashScreen(),
+            '/': (ctx) => const ProductDetailScreen(),
             SignUpScreen.routeName: (ctx) => const SignUpScreen(),
             MapScreen.routeName: (context) => const MapScreen()
           },

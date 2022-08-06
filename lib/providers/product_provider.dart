@@ -56,6 +56,7 @@ class Products with ChangeNotifier {
         rating: 4.5,
         duration: 25,
         imageUrl: 'assets/images/burger.jpg',
+        images: [],
       ),
       Product(
         id: '2',
@@ -65,6 +66,7 @@ class Products with ChangeNotifier {
         rating: 4,
         duration: 30,
         imageUrl: 'assets/images/roll.jpg',
+        images: [],
       ),
       Product(
         id: '3',
@@ -74,6 +76,7 @@ class Products with ChangeNotifier {
         rating: 4.5,
         duration: 35,
         imageUrl: 'assets/images/tacos.jpg',
+        images: [],
       ),
       Product(
         id: '4',
@@ -83,6 +86,7 @@ class Products with ChangeNotifier {
         rating: 5,
         duration: 35,
         imageUrl: 'assets/images/food_1.jpeg',
+        images: [],
       ),
       Product(
         id: '5',
@@ -92,6 +96,7 @@ class Products with ChangeNotifier {
         rating: 4,
         duration: 25,
         imageUrl: 'assets/images/salad.jpg',
+        images: [],
       ),
     ];
 

@@ -104,7 +104,9 @@ class _MapScreenState extends State<MapScreen> {
                         fit: BoxFit.contain,
                         child: Text(
                           address == ""
-                              ? location.currentAddress
+                              ? location.currentAddress == ""
+                                  ? "No address for current Location"
+                                  : location.currentAddress
                               : location.currentPickedAddress,
                           style: const TextStyle(
                             fontSize: 23,

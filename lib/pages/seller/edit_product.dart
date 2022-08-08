@@ -1,28 +1,32 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:video_player/video_player.dart';
-import 'package:mime/mime.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
 
+import '../../models/product.dart';
+import '../../providers/location_provider.dart';
+import '../../providers/product_provider.dart';
 import '../../utils/size_config.dart';
 import '../../widgets/auth_form_field.dart';
 import '../../widgets/custom_icon_button.dart';
 import '../../widgets/small_form_field.dart';
 
-class AddProduct extends StatefulWidget {
-  const AddProduct({Key? key}) : super(key: key);
+class EditProduct extends StatefulWidget {
+  const EditProduct({
+    Key? key,
+    // required this.product
+  }) : super(key: key);
+
+  // final Product product;
 
   @override
-  State<AddProduct> createState() => _AddProductState();
+  State<EditProduct> createState() => _EditProductState();
 }
 
-class _AddProductState extends State<AddProduct> {
+class _EditProductState extends State<EditProduct> {
   final _formKey = GlobalKey<FormState>();
 
   final nameController = TextEditingController();
@@ -33,24 +37,6 @@ class _AddProductState extends State<AddProduct> {
   File? imageFile;
   late List<File> files = [];
   late int currentPos = 0;
-  // late VideoPlayerController _controller;
-  // late Future<void> _initializeVideoPlayerFuture;
-
-  // bool isImage(String path) {
-  //   final mimeType = lookupMimeType(path);
-
-  //   return mimeType!.startsWith('image/');
-  // }
-
-  // Future<Uint8List?> getThumbnail (String path) async {
-  //   final uint8list = await VideoThumbnail.thumbnailData(
-  //     video: path,
-  //     imageFormat: ImageFormat.JPEG,
-  //     maxWidth: 128, // specify the width of the thumbnail, let the height auto-scaled to keep the source aspect ratio
-  //     quality: 25,
-  //   );
-  //   return uint8list;
-  // }
 
   _getFromGallery() async {
     FilePickerResult? result = await FilePicker.platform
@@ -69,8 +55,26 @@ class _AddProductState extends State<AddProduct> {
     descriptionController.dispose();
     priceController.dispose();
     durationController.dispose();
-    // _controller.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(
+      Duration.zero,
+      () async {
+        await Provider.of<Location>(context, listen: false).setLocation();
+        if (mounted) {
+          await Provider.of<Products>(context, listen: false).findById("");
+        }
+      },
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   @override
@@ -111,10 +115,10 @@ class _AddProductState extends State<AddProduct> {
             horizontal: mediaQuery.size.width / 12,
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Add a Product",
+                "Edit Product",
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w500,
@@ -263,6 +267,7 @@ class _AddProductState extends State<AddProduct> {
                         ),
                         SmallFormField(
                             hintText: "In Minutes",
+                            fieldIcon: const Icon(Icons.access_time),
                             fieldController: durationController,
                             formFieldKey: const ValueKey('Duration'),
                             fieldLabel: "Duration"),
@@ -274,12 +279,28 @@ class _AddProductState extends State<AddProduct> {
                     CustomIconButton(
                       color: const Color.fromARGB(193, 27, 209, 161),
                       icon: Icons.login,
-                      buttonLabel: "Add",
+                      buttonLabel: "Update",
                       onPressHandler: () async {
                         if (_formKey.currentState!.validate()) {
                           Navigator.pop(context);
                         }
                       },
+                    ),
+                    SizedBox(
+                      height: mediaQuery.size.height * 0.01379,
+                    ),
+                    CustomIconButton(
+                      color: const Color(0xffD11B26),
+                      // icon: Icons.login,
+                      buttonLabel: "Delete",
+                      onPressHandler: () async {
+                        if (_formKey.currentState!.validate()) {
+                          Navigator.pop(context);
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: mediaQuery.size.height * 2 * 0.01379,
                     ),
                   ],
                 ),

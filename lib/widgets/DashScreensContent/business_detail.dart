@@ -1,4 +1,4 @@
-import 'package:balti_app/widgets/AppBars/home_app_bar.dart';
+import 'package:balti_app/widgets/AppBars/user_app_bar.dart';
 import 'package:balti_app/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -43,7 +43,7 @@ class _BusinessDetailState extends State<BusinessDetail> {
       context,
     ).products;
     return Scaffold(
-      appBar: HomeAppBar(),
+      appBar: const UserAppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -54,7 +54,6 @@ class _BusinessDetailState extends State<BusinessDetail> {
                     width: mediaQuery.size.width,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16.0),
-                      color: Colors.blue,
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(16.0),
@@ -66,6 +65,16 @@ class _BusinessDetailState extends State<BusinessDetail> {
                       ),
                     ),
                   ),
+              Padding(
+                padding: EdgeInsets.only(left: SizeConfig.screenWidth / 24, top: SizeConfig.screenHeight / 72.5),
+                child: Text(
+                  businesses[1].name,
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
               const SearchBar(),
               SizedBox(
                 height: SizeConfig.screenHeight / 72.5,

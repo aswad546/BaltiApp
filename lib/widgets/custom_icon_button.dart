@@ -5,12 +5,14 @@ class CustomIconButton extends StatelessWidget {
     Key? key,
     required this.buttonLabel,
     this.icon,
+    this.width = 0.668,
     required this.color,
     required this.onPressHandler,
   }) : super(key: key);
 
   final String buttonLabel;
   final IconData? icon;
+  final double? width;
   final Color color;
   final Function onPressHandler;
 
@@ -31,7 +33,7 @@ class CustomIconButton extends StatelessWidget {
         children: [
           Container(
             // padding: EdgeInsets.only(left: mediaQuery.size.width / 18),
-            width: mediaQuery.size.width * 0.668,
+            width: mediaQuery.size.width * width!,
             child: Center(
               child: Text(
                 buttonLabel,

@@ -1,7 +1,8 @@
 import 'package:balti_app/pages/seller/add_business.dart';
 import 'package:balti_app/pages/seller/add_product.dart';
-import 'package:balti_app/pages/seller/edit_product.dart';
-import 'package:balti_app/pages/user/privacy_screen.dart';
+import 'package:balti_app/pages/seller/business_list.dart';
+import 'package:balti_app/pages/seller/seller_dashboard.dart';
+import 'package:balti_app/pages/user/cart_screen.dart';
 import 'package:balti_app/widgets/DashScreensContent/business_detail.dart';
 import 'package:balti_app/widgets/DashScreensContent/checkout.dart';
 import 'package:flutter/material.dart';
@@ -91,10 +92,10 @@ class MyApp extends StatelessWidget {
             ),
           ),
           routes: {
-            '/': (ctx) => const AddProduct(),
-            // '/': (ctx) => const UserDashScreen(),
-            // SignUpScreen.routeName: (ctx) => const SignUpScreen(),
-            // MapScreen.routeName: (context) => const MapScreen() 
+            // '/': (ctx) => const AddBusiness(),
+            '/': (ctx) => const CartScreen(),
+            SignUpScreen.routeName: (ctx) => const SignUpScreen(),
+            MapScreen.routeName: (context) => const MapScreen()
           },
         );
       }),

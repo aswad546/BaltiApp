@@ -91,10 +91,10 @@ class MyApp extends StatelessWidget {
             ),
           ),
           routes: {
-            '/': (ctx) => const PrivacyScreen(),
+            '/': (ctx) => const AddProduct(),
             // '/': (ctx) => const UserDashScreen(),
             // SignUpScreen.routeName: (ctx) => const SignUpScreen(),
-            MapScreen.routeName: (context) => const MapScreen() 
+            // MapScreen.routeName: (context) => const MapScreen() 
           },
         );
       }),

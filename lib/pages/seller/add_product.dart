@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:balti_app/widgets/video_builder.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -36,11 +37,11 @@ class _AddProductState extends State<AddProduct> {
   // late VideoPlayerController _controller;
   // late Future<void> _initializeVideoPlayerFuture;
 
-  // bool isImage(String path) {
-  //   final mimeType = lookupMimeType(path);
+  bool isImage(String path) {
+    final mimeType = lookupMimeType(path);
 
-  //   return mimeType!.startsWith('image/');
-  // }
+    return mimeType!.startsWith('image/');
+  }
 
   // Future<Uint8List?> getThumbnail (String path) async {
   //   final uint8list = await VideoThumbnail.thumbnailData(
@@ -54,7 +55,7 @@ class _AddProductState extends State<AddProduct> {
 
   _getFromGallery() async {
     FilePickerResult? result = await FilePicker.platform
-        .pickFiles(allowMultiple: true, type: FileType.image);
+        .pickFiles(allowMultiple: true, type: FileType.media);
     if (result != null) {
       files = result.paths.map((path) => File(path!)).toList();
       setState(() {});
@@ -154,43 +155,46 @@ class _AddProductState extends State<AddProduct> {
                               SizedBox(
                                 height: mediaQuery.size.height * 0.01379,
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  _getFromGallery();
-                                },
-                                child: CarouselSlider(
-                                  items: files
-                                      .map(
-                                        (file) => Container(
-                                          margin: EdgeInsets.symmetric(
-                                            vertical:
-                                                SizeConfig.screenHeight / 36.25,
-                                          ),
-                                          width: mediaQuery.size.width * 0.5,
-                                          height:
-                                              SizeConfig.screenHeight / 3.625,
-                                          child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              child: Image(
-                                                image:
-                                                    FileImage(File(file.path)),
-                                                fit: BoxFit.cover,
-                                              )),
+                              // GestureDetector(
+                              //   onTap: () {
+                              //     _getFromGallery();
+                              //   },
+                              //   child:
+                              CarouselSlider(
+                                items: files
+                                    .map(
+                                      (file) => Container(
+                                        margin: EdgeInsets.symmetric(
+                                          vertical:
+                                              SizeConfig.screenHeight / 36.25,
                                         ),
-                                      )
-                                      .toList(),
-                                  options: CarouselOptions(
-                                      onPageChanged: (index, reason) {
-                                        setState(() {
-                                          currentPos = index;
-                                        });
-                                      },
-                                      enlargeCenterPage: true,
-                                      viewportFraction: 0.5,
-                                      enableInfiniteScroll: false),
-                                ),
+                                        width: mediaQuery.size.width * 0.5,
+                                        height: SizeConfig.screenHeight / 3.625,
+                                        child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            child: isImage(file.path)
+                                                ? Image(
+                                                    image: FileImage(
+                                                        File(file.path)),
+                                                    fit: BoxFit.cover,
+                                                  )
+                                                : VideoBuilder(
+                                                    videoPath: file.path)),
+                                      ),
+                                    )
+                                    .toList(),
+                                options: CarouselOptions(
+                                    onPageChanged: (index, reason) {
+                                      setState(() {
+                                        currentPos = index;
+                                      });
+                                    },
+                                    enlargeCenterPage: true,
+                                    viewportFraction: 0.5,
+                                    enableInfiniteScroll: false),
                               ),
+                              // ),
                               SizedBox(
                                 height: mediaQuery.size.height * 0.01379,
                               ),
@@ -212,20 +216,41 @@ class _AddProductState extends State<AddProduct> {
                                       ),
                                     );
                                   }).toList()),
-                              TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      files = [];
-                                    });
-                                  },
-                                  child: Text(
-                                    "remove all",
-                                    style: TextStyle(
-                                        color: Colors.red,
-                                        decoration: TextDecoration.underline,
-                                        fontSize:
-                                            mediaQuery.size.height * 0.015),
-                                  )),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  TextButton(
+                                      onPressed: () {
+                                        _getFromGallery();
+                                      },
+                                      child: Text(
+                                        "Reselect",
+                                        style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
+                                            fontSize:
+                                                mediaQuery.size.height * 0.015),
+                                      )),
+                                  SizedBox(
+                                    width: mediaQuery.size.width * 0.01,
+                                  ),
+                                  TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          files = [];
+                                        });
+                                      },
+                                      child: Text(
+                                        "Remove all",
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            decoration:
+                                                TextDecoration.underline,
+                                            fontSize:
+                                                mediaQuery.size.height * 0.015),
+                                      )),
+                                ],
+                              ),
                             ],
                           ),
                     SizedBox(

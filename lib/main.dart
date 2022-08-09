@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/auth/signup_screen.dart';
+import 'pages/seller/edit_product.dart';
 import 'pages/user/edit_profile_screen.dart';
 import 'pages/user/explore_screen.dart';
 import 'pages/user/map_screen.dart';
@@ -92,10 +93,10 @@ class MyApp extends StatelessWidget {
             ),
           ),
           routes: {
-            // '/': (ctx) => const AddBusiness(),
-            '/': (ctx) => const CartScreen(),
-            SignUpScreen.routeName: (ctx) => const SignUpScreen(),
-            MapScreen.routeName: (context) => const MapScreen()
+            '/': (ctx) => const EditProduct(),
+            // '/': (ctx) => const UserDashScreen(),
+            // SignUpScreen.routeName: (ctx) => const SignUpScreen(),
+            // MapScreen.routeName: (context) => const MapScreen()
           },
         );
       }),

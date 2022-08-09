@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:mime/mime.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -13,6 +14,7 @@ import '../../utils/size_config.dart';
 import '../../widgets/auth_form_field.dart';
 import '../../widgets/custom_icon_button.dart';
 import '../../widgets/small_form_field.dart';
+import '../../widgets/video_builder.dart';
 
 class EditProduct extends StatefulWidget {
   const EditProduct({
@@ -38,9 +40,15 @@ class _EditProductState extends State<EditProduct> {
   late List<File> files = [];
   late int currentPos = 0;
 
+  bool isImage(String path) {
+    final mimeType = lookupMimeType(path);
+
+    return mimeType!.startsWith('image/');
+  }
+
   _getFromGallery() async {
     FilePickerResult? result = await FilePicker.platform
-        .pickFiles(allowMultiple: true, type: FileType.image);
+        .pickFiles(allowMultiple: true, type: FileType.media);
     if (result != null) {
       files = result.paths.map((path) => File(path!)).toList();
       setState(() {});
@@ -158,42 +166,39 @@ class _EditProductState extends State<EditProduct> {
                               SizedBox(
                                 height: mediaQuery.size.height * 0.01379,
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  _getFromGallery();
-                                },
-                                child: CarouselSlider(
-                                  items: files
-                                      .map(
-                                        (file) => Container(
-                                          margin: EdgeInsets.symmetric(
-                                            vertical:
-                                                SizeConfig.screenHeight / 36.25,
-                                          ),
-                                          width: mediaQuery.size.width * 0.5,
-                                          height:
-                                              SizeConfig.screenHeight / 3.625,
-                                          child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              child: Image(
-                                                image:
-                                                    FileImage(File(file.path)),
-                                                fit: BoxFit.cover,
-                                              )),
+                              CarouselSlider(
+                                items: files
+                                    .map(
+                                      (file) => Container(
+                                        margin: EdgeInsets.symmetric(
+                                          vertical:
+                                              SizeConfig.screenHeight / 36.25,
                                         ),
-                                      )
-                                      .toList(),
-                                  options: CarouselOptions(
-                                      onPageChanged: (index, reason) {
-                                        setState(() {
-                                          currentPos = index;
-                                        });
-                                      },
-                                      enlargeCenterPage: true,
-                                      viewportFraction: 0.5,
-                                      enableInfiniteScroll: false),
-                                ),
+                                        width: mediaQuery.size.width * 0.5,
+                                        height: SizeConfig.screenHeight / 3.625,
+                                        child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            child: isImage(file.path)
+                                                ? Image(
+                                                    image: FileImage(
+                                                        File(file.path)),
+                                                    fit: BoxFit.cover,
+                                                  )
+                                                : VideoBuilder(
+                                                    videoPath: file.path)),
+                                      ),
+                                    )
+                                    .toList(),
+                                options: CarouselOptions(
+                                    onPageChanged: (index, reason) {
+                                      setState(() {
+                                        currentPos = index;
+                                      });
+                                    },
+                                    enlargeCenterPage: true,
+                                    viewportFraction: 0.5,
+                                    enableInfiniteScroll: false),
                               ),
                               SizedBox(
                                 height: mediaQuery.size.height * 0.01379,
@@ -216,20 +221,41 @@ class _EditProductState extends State<EditProduct> {
                                       ),
                                     );
                                   }).toList()),
-                              TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      files = [];
-                                    });
-                                  },
-                                  child: Text(
-                                    "remove all",
-                                    style: TextStyle(
-                                        color: Colors.red,
-                                        decoration: TextDecoration.underline,
-                                        fontSize:
-                                            mediaQuery.size.height * 0.015),
-                                  )),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  TextButton(
+                                      onPressed: () {
+                                        _getFromGallery();
+                                      },
+                                      child: Text(
+                                        "Reselect",
+                                        style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
+                                            fontSize:
+                                                mediaQuery.size.height * 0.015),
+                                      )),
+                                  SizedBox(
+                                    width: mediaQuery.size.width * 0.01,
+                                  ),
+                                  TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          files = [];
+                                        });
+                                      },
+                                      child: Text(
+                                        "Remove all",
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            decoration:
+                                                TextDecoration.underline,
+                                            fontSize:
+                                                mediaQuery.size.height * 0.015),
+                                      )),
+                                ],
+                              ),
                             ],
                           ),
                     SizedBox(

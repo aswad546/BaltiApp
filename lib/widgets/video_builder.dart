@@ -52,6 +52,7 @@ class _VideoBuilderState extends State<VideoBuilder> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData mediaQuery = MediaQuery.of(context);
     return Container(
       child: FutureBuilder(
         future: _initializeVideoPlayerFuture,
@@ -59,49 +60,76 @@ class _VideoBuilderState extends State<VideoBuilder> {
           if (snapshot.connectionState == ConnectionState.done) {
             // If the VideoPlayerController has finished initialization, use
             // the data it provides to limit the aspect ratio of the video.
-            return Stack(
-              children: <Widget>[
-                VideoPlayer(_controller),
-
-                // Add a play or pause button overlay
-                Visibility(
-                  visible: _onTouch,
-                  child: Container(
-                    color: Colors.grey.withOpacity(0.5),
-                    alignment: Alignment.center,
-                    child: MaterialButton(
-                      shape:
-                          CircleBorder(side: BorderSide(color: Colors.white)),
-                      child: Icon(
+            return AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: <Widget>[
+                    VideoPlayer(_controller),
+                    // Here you can also add Overlay capacities
+                    Center(
+                      child: IconButton(
+                        icon: Icon(
+                      _controller.value.isPlaying
+                          ? Icons.pause_circle_outline_sharp
+                          : Icons.play_circle_outline_sharp,
+                      color: Color.fromARGB(255, 199, 197, 197),
+                      size: mediaQuery.size.height * 0.07,
+                        ),
+                        onPressed: () {
+                      setState(() {
                         _controller.value.isPlaying
-                            ? Icons.pause
-                            : Icons.play_arrow,
-                        color: Colors.white,
+                            ? _controller.pause()
+                            : _controller.play();
+                      });
+                        },
                       ),
-                      onPressed: () {
-                        _timer.cancel();
-
-                        // pause while video is playing, play while video is pausing
-                        setState(() {
-                          _controller.value.isPlaying
-                              ? _controller.pause()
-                              : _controller.play();
-                        });
-
-                        // Auto dismiss overlay after 1 second
-
-                        // _timer =
-                        //     Timer.periodic(Duration(milliseconds: 1000), (_) {
-                        //   setState(() {
-                        //     _onTouch = false;
-                        //   });
-                        // });
-                      },
                     ),
-                  ),
-                )
-              ],
-            );
+                  ],
+                ));
+            // Stack(
+            //   children: <Widget>[
+            //     VideoPlayer(_controller),
+
+            //     // Add a play or pause button overlay
+            //     Center(
+            //       child: Visibility(
+            //         visible: _onTouch,
+            //         child: Container(
+            //           color: Colors.grey.withOpacity(0.5),
+            //           alignment: Alignment.center,
+            //           child: IconButton(
+            //             icon: Icon(
+            //               _controller.value.isPlaying
+            //                   ? Icons.pause
+            //                   : Icons.play_arrow,
+            //               color: Colors.white,
+            //             ),
+            //             onPressed: () {
+            //               _timer.cancel();
+
+            //               // pause while video is playing, play while video is pausing
+            //               setState(() {
+            //                 _controller.value.isPlaying
+            //                     ? _controller.pause()
+            //                     : _controller.play();
+            //               });
+
+            //               // Auto dismiss overlay after 1 second
+
+            //               // _timer =
+            //               //     Timer.periodic(Duration(milliseconds: 1000), (_) {
+            //               //   setState(() {
+            //               //     _onTouch = false;
+            //               //   });
+            //               // });
+            //             },
+            //           ),
+            //         ),
+            //       ),
+            //     )
+            //   ],
+            // );
           } else {
             // If the VideoPlayerController is still initializing, show a
             // loading spinner.

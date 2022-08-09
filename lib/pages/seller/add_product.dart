@@ -9,7 +9,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:video_player/video_player.dart';
 import 'package:mime/mime.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../../utils/size_config.dart';
 import '../../widgets/auth_form_field.dart';
@@ -42,16 +41,6 @@ class _AddProductState extends State<AddProduct> {
 
     return mimeType!.startsWith('image/');
   }
-
-  // Future<Uint8List?> getThumbnail (String path) async {
-  //   final uint8list = await VideoThumbnail.thumbnailData(
-  //     video: path,
-  //     imageFormat: ImageFormat.JPEG,
-  //     maxWidth: 128, // specify the width of the thumbnail, let the height auto-scaled to keep the source aspect ratio
-  //     quality: 25,
-  //   );
-  //   return uint8list;
-  // }
 
   _getFromGallery() async {
     FilePickerResult? result = await FilePicker.platform

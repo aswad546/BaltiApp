@@ -16,7 +16,10 @@ import '../../widgets/custom_icon_button.dart';
 import '../../widgets/small_form_field.dart';
 
 class AddProduct extends StatefulWidget {
-  const AddProduct({Key? key}) : super(key: key);
+  const AddProduct({Key? key, required this.userId, required this.businessId})
+      : super(key: key);
+  final String userId;
+  final String businessId;
 
   @override
   State<AddProduct> createState() => _AddProductState();

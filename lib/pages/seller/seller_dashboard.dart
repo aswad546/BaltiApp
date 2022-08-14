@@ -1,13 +1,16 @@
 import 'dart:ui';
 
+import 'package:balti_app/pages/seller/business_list.dart';
+import 'package:balti_app/pages/user/user_dash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/custom_icon_button.dart';
 
 class SellerDashboard extends StatefulWidget {
-  const SellerDashboard({Key? key}) : super(key: key);
+  const SellerDashboard({Key? key, required this.userId}) : super(key: key);
 
+  final String userId;
   @override
   State<SellerDashboard> createState() => _SellerDashboardState();
 }
@@ -27,7 +30,9 @@ class _SellerDashboardState extends State<SellerDashboard> {
               icon: const Icon(Icons.arrow_back_ios),
               color: Colors.black,
               iconSize: mediaQuery.size.width * 0.08,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
           ),
           actions: [
@@ -37,7 +42,13 @@ class _SellerDashboardState extends State<SellerDashboard> {
                 icon: const Icon(Icons.swap_horiz),
                 color: Colors.black,
                 iconSize: mediaQuery.size.width * 0.08,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const UserDashScreen()),
+                  );
+                },
               ),
             ),
           ]),
@@ -64,10 +75,13 @@ class _SellerDashboardState extends State<SellerDashboard> {
             children: <Widget>[
               FloatingActionButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => const SecondRoute()),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BusinessList(
+                              userId: widget.userId,
+                            )),
+                  );
                 },
                 backgroundColor: const Color.fromARGB(193, 27, 209, 161),
                 shape: RoundedRectangleBorder(

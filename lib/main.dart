@@ -93,7 +93,9 @@ class MyApp extends StatelessWidget {
             ),
           ),
           routes: {
-            '/': (ctx) => const EditProduct(),
+            '/': (ctx) => const SellerDashboard(
+                  userId: "61607aa83335d4dd8e75ddc7",
+                ),
             // '/': (ctx) => const UserDashScreen(),
             // SignUpScreen.routeName: (ctx) => const SignUpScreen(),
             // MapScreen.routeName: (context) => const MapScreen()

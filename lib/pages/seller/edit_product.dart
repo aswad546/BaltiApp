@@ -19,10 +19,10 @@ import '../../widgets/video_builder.dart';
 class EditProduct extends StatefulWidget {
   const EditProduct({
     Key? key,
-    // required this.product
+    required this.product
   }) : super(key: key);
 
-  // final Product product;
+  final Product product;
 
   @override
   State<EditProduct> createState() => _EditProductState();

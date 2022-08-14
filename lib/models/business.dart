@@ -8,6 +8,7 @@ class Business {
   final String description;
   final String imageUrl;
   final double rating;
+  final int deliveryCharges;
 
   Business({
     required this.id,
@@ -19,5 +20,22 @@ class Business {
     required this.description,
     required this.imageUrl,
     required this.rating,
+    required this.deliveryCharges,
   });
+
+  factory Business.fromJson(Map<String, dynamic> json) {
+    return Business(
+      id: json['_id'],
+      ownerId: json['user'],
+      name: json['name'],
+      type: json['type'],
+      lat: 0, // hardcoded for now, to be changed when backend is fixed
+      lng: 0, // hardcoded for now, to be changed when backend is fixed
+      description: json['description'],
+      imageUrl:
+          "assets/images/subway.png", // hardcoded for now, to be changed when backend is fixed
+      rating: json['overallRating'].toDouble(),
+      deliveryCharges: json['delivery_charges'],
+    );
+  }
 }

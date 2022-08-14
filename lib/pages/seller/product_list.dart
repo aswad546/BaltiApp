@@ -9,9 +9,13 @@ import '../../models/product.dart';
 import '../../providers/product_provider.dart';
 import '../../utils/size_config.dart';
 import '../../widgets/product_card.dart';
+import 'edit_product.dart';
 
 class ProductList extends StatefulWidget {
-  const ProductList({Key? key}) : super(key: key);
+  const ProductList({Key? key, required this.userId, required this.businessId})
+      : super(key: key);
+  final String userId;
+  final String businessId;
 
   @override
   State<ProductList> createState() => _ProductListState();
@@ -28,6 +32,8 @@ class _ProductListState extends State<ProductList> {
 
   @override
   Widget build(BuildContext context) {
+    print("^^^^^^^^^^^^^^^^^^^^^^^^");
+    print(widget.businessId);
     MediaQueryData mediaQuery = MediaQuery.of(context);
     SizeConfig().init(context);
     List<Product> products = Provider.of<Products>(
@@ -93,12 +99,23 @@ class _ProductListState extends State<ProductList> {
               ),
               itemCount: products.length,
               itemBuilder: (BuildContext ctx, int i) {
-                return ProductCard(
-                  productName: products[i].name,
-                  price: products[i].price.toInt().toString(),
-                  delay: '${products[i].duration.toInt()} min',
-                  isFav: false,
-                  imageUrl: products[i].imageUrl,
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditProduct(
+                                product: products[i],
+                              )),
+                    );
+                  },
+                  child: ProductCard(
+                    productName: products[i].name,
+                    price: products[i].price.toInt().toString(),
+                    delay: '${products[i].duration.toInt()} min',
+                    isFav: false,
+                    imageUrl: products[i].imageUrl,
+                  ),
                 );
               },
             ),
@@ -110,7 +127,11 @@ class _ProductListState extends State<ProductList> {
           onPressed: () => {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const AddProduct()),
+              MaterialPageRoute(
+                  builder: (context) => AddProduct(
+                        userId: widget.userId,
+                        businessId: widget.businessId,
+                      )),
             )
           },
           backgroundColor: Color.fromARGB(193, 27, 209, 161),

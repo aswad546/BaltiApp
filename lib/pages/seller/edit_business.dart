@@ -12,16 +12,14 @@ import '../../widgets/auth_form_field.dart';
 import '../../widgets/custom_icon_button.dart';
 import 'product_list.dart';
 
-class AddBusiness extends StatefulWidget {
-  const AddBusiness({Key? key, required this.userId})
-      : super(key: key);
-  final String userId;
+class EditBusiness extends StatefulWidget {
+  const EditBusiness({Key? key}) : super(key: key);
 
   @override
-  State<AddBusiness> createState() => _AddBusinessState();
+  State<EditBusiness> createState() => _EditBusinessState();
 }
 
-class _AddBusinessState extends State<AddBusiness> {
+class _EditBusinessState extends State<EditBusiness> {
   final _formKey = GlobalKey<FormState>();
 
   final nameController = TextEditingController();
@@ -93,10 +91,10 @@ class _AddBusinessState extends State<AddBusiness> {
             horizontal: mediaQuery.size.width / 12,
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Add a Business",
+                "Edit Business",
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w500,
@@ -191,7 +189,7 @@ class _AddBusinessState extends State<AddBusiness> {
                     CustomIconButton(
                       color: const Color.fromARGB(193, 27, 209, 161),
                       icon: Icons.login,
-                      buttonLabel: "Register",
+                      buttonLabel: "Update",
                       onPressHandler: () async {
                         if (_formKey.currentState!.validate()) {
                           await Provider.of<Businesses>(context, listen: false)
@@ -206,6 +204,31 @@ class _AddBusinessState extends State<AddBusiness> {
                           //   context,
                           //   MaterialPageRoute(
                           //       builder: (context) => const ProductList()),
+                          // );
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: mediaQuery.size.height * 0.055,
+                    ),
+                    CustomIconButton(
+                      color: const Color(0xffD11B26),
+                      icon: Icons.login,
+                      buttonLabel: "Delete",
+                      onPressHandler: () async {
+                        if (_formKey.currentState!.validate()) {
+                          await Provider.of<Businesses>(context, listen: false)
+                              .fetchAndSetBusinesses(
+                                  // nameController.text,
+                                  // phoneNumberController.text,
+                                  // addressController.text,
+                                  // ntnController.text,
+                                  // imageFile,
+                                  );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => ProductList()),
                           // );
                         }
                       },

@@ -9,7 +9,9 @@ import '../../models/business.dart';
 import '../../providers/business_provider.dart';
 
 class BusinessList extends StatefulWidget {
-  const BusinessList({Key? key}) : super(key: key);
+  const BusinessList({Key? key, required this.userId}) : super(key: key);
+
+  final String userId;
 
   @override
   State<BusinessList> createState() => _BusinessListState();
@@ -21,7 +23,7 @@ class _BusinessListState extends State<BusinessList> {
   void initState() {
     super.initState();
     // context.watch<BusinessesList>().getBusinesses(phoneNumber);
-    Provider.of<Businesses>(context, listen: false).fetchAndSetBusinesses();
+    Provider.of<Businesses>(context, listen: false).findByUserId(widget.userId);
   }
 
   @override
@@ -86,23 +88,34 @@ class _BusinessListState extends State<BusinessList> {
                             children: context
                                 .watch<Businesses>()
                                 .businesses
-                                .map((data) => Card(
-                                      margin: EdgeInsets.only(
-                                          top: mediaQuery.size.height * 0.03,
-                                          left: mediaQuery.size.width * 0.02,
-                                          right: mediaQuery.size.width * 0.02),
-                                      elevation: 5.0,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      child: GestureDetector(
-                                        onTap: () => {},
+                                .map((data) => GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => ProductList(
+                                                    userId: widget.userId,
+                                                    businessId: data.id,
+                                                  )),
+                                        );
+                                      },
+                                      child: Card(
+                                        margin: EdgeInsets.only(
+                                            top: mediaQuery.size.height * 0.03,
+                                            left: mediaQuery.size.width * 0.02,
+                                            right:
+                                                mediaQuery.size.width * 0.02),
+                                        elevation: 5.0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
                                         child: Row(children: [
                                           Container(
-                                              width:
-                                                  mediaQuery.size.width * 0.16,
-                                              height:
-                                                  mediaQuery.size.height * 0.09,
+                                              width: mediaQuery.size.width *
+                                                  0.16,
+                                              height: mediaQuery.size.height *
+                                                  0.09,
                                               margin: EdgeInsets.all(
                                                   mediaQuery.size.width *
                                                       0.025),
@@ -153,7 +166,10 @@ class _BusinessListState extends State<BusinessList> {
           onPressed: () => {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const AddBusiness()),
+              MaterialPageRoute(
+                  builder: (context) => AddBusiness(
+                        userId: widget.userId,
+                      )),
             )
           },
           backgroundColor: Color.fromARGB(193, 27, 209, 161),

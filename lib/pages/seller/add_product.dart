@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:balti_app/models/product.dart';
 import 'package:balti_app/widgets/video_builder.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:video_player/video_player.dart';
 import 'package:mime/mime.dart';
 
+import '../../providers/product_provider.dart';
 import '../../utils/size_config.dart';
 import '../../widgets/auth_form_field.dart';
 import '../../widgets/custom_icon_button.dart';
@@ -35,12 +37,14 @@ class _AddProductState extends State<AddProduct> {
 
   File? imageFile;
   late List<File> files = [];
+  late List<String> images = [];
+  late List<String> videos = [];
   late int currentPos = 0;
   // late VideoPlayerController _controller;
   // late Future<void> _initializeVideoPlayerFuture;
 
-  bool isImage(String path) {
-    final mimeType = lookupMimeType(path);
+  bool isImage(String? path) {
+    final mimeType = lookupMimeType(path!);
 
     return mimeType!.startsWith('image/');
   }
@@ -50,6 +54,13 @@ class _AddProductState extends State<AddProduct> {
         .pickFiles(allowMultiple: true, type: FileType.media);
     if (result != null) {
       files = result.paths.map((path) => File(path!)).toList();
+      for (var i = 0; i < result.paths.length; i = i + 1) {
+        if (isImage(result.paths[i])) {
+          images.add(result.paths[i].toString());
+        } else {
+          videos.add(result.paths[i].toString());
+        }
+      }
       setState(() {});
     } else {
       // User canceled the picker
@@ -294,7 +305,23 @@ class _AddProductState extends State<AddProduct> {
                       buttonLabel: "Add",
                       onPressHandler: () async {
                         if (_formKey.currentState!.validate()) {
-                          Navigator.pop(context);
+                          print(
+                              "****************  FORM KEY VALIDATED  ***************");
+                          print(widget.businessId);
+                          await Provider.of<Products>(context, listen: false)
+                              .addProduct(Product(
+                                  id: " ",
+                                  name: nameController.text,
+                                  businessId: widget.businessId,
+                                  description: descriptionController.text,
+                                  price: double.parse(priceController.text),
+                                  rating: 0,
+                                  duration:
+                                      double.parse(durationController.text),
+                                  imageUrl: "assets/images/burger.jpg",
+                                  images: images,
+                                  videos: videos));
+                          // Navigator.pop(context);
                         }
                       },
                     ),

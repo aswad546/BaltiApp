@@ -17,10 +17,7 @@ import '../../widgets/small_form_field.dart';
 import '../../widgets/video_builder.dart';
 
 class EditProduct extends StatefulWidget {
-  const EditProduct({
-    Key? key,
-    required this.product
-  }) : super(key: key);
+  const EditProduct({Key? key, required this.product}) : super(key: key);
 
   final Product product;
 
@@ -38,10 +35,12 @@ class _EditProductState extends State<EditProduct> {
 
   File? imageFile;
   late List<File> files = [];
+  late List<dynamic> images = [];
+  late List<dynamic> videos = [];
   late int currentPos = 0;
 
-  bool isImage(String path) {
-    final mimeType = lookupMimeType(path);
+  bool isImage(String? path) {
+    final mimeType = lookupMimeType(path!);
 
     return mimeType!.startsWith('image/');
   }
@@ -51,6 +50,13 @@ class _EditProductState extends State<EditProduct> {
         .pickFiles(allowMultiple: true, type: FileType.media);
     if (result != null) {
       files = result.paths.map((path) => File(path!)).toList();
+      for (var i = 0; i < result.paths.length; i = i + 1) {
+        if (isImage(result.paths[i])) {
+          images.add(result.paths[i].toString());
+        } else {
+          videos.add(result.paths[i].toString());
+        }
+      }
       setState(() {});
     } else {
       // User canceled the picker
@@ -87,6 +93,12 @@ class _EditProductState extends State<EditProduct> {
 
   @override
   Widget build(BuildContext context) {
+    nameController.text = widget.product.name;
+    descriptionController.text = widget.product.description;
+    priceController.text = widget.product.price.toString();
+    durationController.text = widget.product.duration.toString();
+    images = widget.product.images;
+    videos = widget.product.videos;
     MediaQueryData mediaQuery = MediaQuery.of(context);
     TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(

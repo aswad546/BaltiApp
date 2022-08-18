@@ -7,13 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../models/business.dart';
 import '../../providers/business_provider.dart';
 import '../../widgets/auth_form_field.dart';
 import '../../widgets/custom_icon_button.dart';
-import 'product_list.dart';
 
 class EditBusiness extends StatefulWidget {
-  const EditBusiness({Key? key}) : super(key: key);
+  const EditBusiness({Key? key, required this.business}) : super(key: key);
+  final Business business;
 
   @override
   State<EditBusiness> createState() => _EditBusinessState();
@@ -108,8 +109,8 @@ class _EditBusinessState extends State<EditBusiness> {
                   children: [
                     Container(
                       margin: EdgeInsets.only(
-                        top: mediaQuery.size.height * 0.02,
-                        bottom: mediaQuery.size.height * 0.02,
+                        top: mediaQuery.size.height * 0.01379,
+                        bottom: mediaQuery.size.height * 0.01379,
                       ),
                       width: mediaQuery.size.height * 0.155,
                       height: mediaQuery.size.height * 0.155,
@@ -184,7 +185,7 @@ class _EditBusinessState extends State<EditBusiness> {
                           ntnController, // used to check if passwords are same
                     ),
                     SizedBox(
-                      height: mediaQuery.size.height * 0.055,
+                      height: mediaQuery.size.height * 0.035,
                     ),
                     CustomIconButton(
                       color: const Color.fromARGB(193, 27, 209, 161),
@@ -209,11 +210,10 @@ class _EditBusinessState extends State<EditBusiness> {
                       },
                     ),
                     SizedBox(
-                      height: mediaQuery.size.height * 0.055,
+                      height: mediaQuery.size.height * 0.01379,
                     ),
                     CustomIconButton(
                       color: const Color(0xffD11B26),
-                      icon: Icons.login,
                       buttonLabel: "Delete",
                       onPressHandler: () async {
                         if (_formKey.currentState!.validate()) {

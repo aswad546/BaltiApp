@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:balti_app/pages/seller/add_business.dart';
+import 'package:balti_app/pages/seller/edit_business.dart';
 import 'package:balti_app/pages/seller/product_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -112,10 +113,10 @@ class _BusinessListState extends State<BusinessList> {
                                         ),
                                         child: Row(children: [
                                           Container(
-                                              width: mediaQuery.size.width *
-                                                  0.16,
-                                              height: mediaQuery.size.height *
-                                                  0.09,
+                                              width:
+                                                  mediaQuery.size.width * 0.16,
+                                              height:
+                                                  mediaQuery.size.height * 0.09,
                                               margin: EdgeInsets.all(
                                                   mediaQuery.size.width *
                                                       0.025),
@@ -153,6 +154,32 @@ class _BusinessListState extends State<BusinessList> {
                                                           FontWeight.w400)),
                                             ],
                                           ),
+                                          Expanded(
+                                            child: Container(),
+                                          ),
+                                          FloatingActionButton(
+                                            onPressed: () => {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditBusiness(
+                                                          business: data,
+                                                        )),
+                                              )
+                                            },
+                                            elevation: 0,
+                                            backgroundColor: Colors.white,
+                                            child: Icon(
+                                              Icons.edit,
+                                              color: Colors.black,
+                                              size:
+                                                  mediaQuery.size.width * 0.055,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: mediaQuery.size.width * 0.01,
+                                          )
                                         ]),
                                       ),
                                     ))

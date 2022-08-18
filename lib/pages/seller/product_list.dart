@@ -26,7 +26,8 @@ class _ProductListState extends State<ProductList> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
-      await Provider.of<Products>(context, listen: false).fetchAndSetProducts();
+      // await Provider.of<Products>(context, listen: false).fetchAndSetProducts();
+      await Provider.of<Products>(context, listen: false).findByBusinessId(widget.businessId);
     });
   }
 
@@ -114,7 +115,7 @@ class _ProductListState extends State<ProductList> {
                     price: products[i].price.toInt().toString(),
                     delay: '${products[i].duration.toInt()} min',
                     isFav: false,
-                    imageUrl: products[i].imageUrl,
+                    imageUrl: products[i].images[0],
                   ),
                 );
               },

@@ -47,14 +47,26 @@ class Businesses with ChangeNotifier {
     //Send Api call to server for add
     final response = await http.post(
       Uri.parse('https://balti-api.herokuapp.com/api/businesses'),
-      body: jsonEncode(business),
+      body: jsonEncode({
+        "user": business.ownerId,
+        "name": business.name,
+        "type": business.type,
+        "description": business.description,
+        "image": business.imageUrl,
+        "phoneNumber": business.phoneNumber,
+        "delivery_charges": business.deliveryCharges,
+        "latitude": business.lat,
+        "longitude": business.lng,
+        "locationDesc": business.locationDescription,
+      }),
     );
-
+    print(response.statusCode);
+    var jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
     if (response.statusCode == 201) {
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
-      print(jsonDecode(response.body));
-      // return jsonDecode(response.body).id;
+      businesses.add(Business.fromJson(jsonResponse));
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
@@ -128,24 +140,28 @@ class Businesses with ChangeNotifier {
           id: '2',
           ownerId: '2',
           name: 'Arcadian Cafe',
+          phoneNumber: '2345678',
           type: 'Restaurant',
           lat: 12.01,
           lng: 22.1,
           description: 'Finest dining in the city',
           imageUrl: 'assets/images/arcadian.jpg',
           rating: 4.5,
-          deliveryCharges: 200),
+          deliveryCharges: 200,
+          locationDescription: ""),
       Business(
           id: '1',
           ownerId: '2',
           name: 'Subway',
+          phoneNumber: '98765432',
           type: 'Restaurant',
           lat: 10.01,
           lng: 20.1,
           description: 'Find the best sandwiches in the city',
           imageUrl: 'assets/images/subway.png',
           rating: 4.0,
-          deliveryCharges: 0),
+          deliveryCharges: 0,
+          locationDescription: ""),
     ];
     //Fetch products from api and set local products list
     notifyListeners();

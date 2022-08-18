@@ -45,6 +45,7 @@ dependencies:
   video_player:
   mime:
   video_thumbnail:
+  objectid: ^2.1.0
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:balti_app/models/business.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
@@ -13,8 +14,7 @@ import '../../widgets/custom_icon_button.dart';
 import 'product_list.dart';
 
 class AddBusiness extends StatefulWidget {
-  const AddBusiness({Key? key, required this.userId})
-      : super(key: key);
+  const AddBusiness({Key? key, required this.userId}) : super(key: key);
   final String userId;
 
   @override
@@ -141,7 +141,7 @@ class _AddBusinessState extends State<AddBusiness> {
                       height: mediaQuery.size.height * 0.01379,
                     ),
                     AuthFormField(
-                      hintText: "Username",
+                      hintText: "Name",
                       formFieldKey: const ValueKey('username'),
                       fieldLabel: 'Name',
                       fieldIcon: const Icon(
@@ -194,14 +194,22 @@ class _AddBusinessState extends State<AddBusiness> {
                       buttonLabel: "Register",
                       onPressHandler: () async {
                         if (_formKey.currentState!.validate()) {
+                          print(
+                              "****************  FORM KEY VALIDATED  ***************");
                           await Provider.of<Businesses>(context, listen: false)
-                              .fetchAndSetBusinesses(
-                                  // nameController.text,
-                                  // phoneNumberController.text,
-                                  // addressController.text,
-                                  // ntnController.text,
-                                  // imageFile,
-                                  );
+                              .addBusiness(Business(
+                                  id: " ",
+                                  ownerId: widget.userId,
+                                  name: nameController.text,
+                                  phoneNumber: phoneNumberController.text,
+                                  type: "type",
+                                  lat: 1,
+                                  lng: 1,
+                                  description: "description",
+                                  imageUrl: "imageURL",
+                                  rating: 0,
+                                  deliveryCharges: 0,
+                                  locationDescription: addressController.text));
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(

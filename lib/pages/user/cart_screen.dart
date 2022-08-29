@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
 
+import '../../providers/cart_provider.dart';
 import '../../utils/size_config.dart';
 import '../../providers/location_provider.dart';
 import '../../widgets/custom_icon_button.dart';
@@ -16,13 +17,21 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   @override
+  void initState() {
+    super.initState();
+    // context.watch<BusinessesList>().getBusinesses(phoneNumber);
+    Provider.of<UserCart>(context, listen: false).getProducts();
+  }
+
+  @override
   void dispose() {
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget newCard(mediaQuery) {
+    // card widget function
+    Widget newCard(mediaQuery, name, price, imageUrl, quantity) {
       return Card(
         margin: EdgeInsets.only(
             top: mediaQuery.size.height * 0.01,
@@ -37,7 +46,7 @@ class _CartScreenState extends State<CartScreen> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: Image(
-                  image: AssetImage('assets/images/salad.jpg'),
+                  image: AssetImage(imageUrl),
                   fit: BoxFit.cover,
                 ),
               )),
@@ -47,13 +56,13 @@ class _CartScreenState extends State<CartScreen> {
             children: [
               Padding(
                 padding: EdgeInsets.only(top: mediaQuery.size.height * 0.01),
-                child: Text('Salad',
+                child: Text('$name',
                     style: TextStyle(
                         letterSpacing: 0.08,
                         fontSize: mediaQuery.size.width * 0.05,
                         fontWeight: FontWeight.w500)),
               ),
-              Text("ksfs",
+              Text("delicious and tasty product",
                   style: TextStyle(
                       letterSpacing: 0.08,
                       fontSize: mediaQuery.size.width * 0.03,
@@ -78,7 +87,7 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('0'),
+                      child: Text('$quantity'),
                     ),
                     GestureDetector(
                       onTap: () {},
@@ -98,7 +107,7 @@ class _CartScreenState extends State<CartScreen> {
               ),
               Container(
                 child: Text(
-                  'Rs. 500',
+                  'Rs. $price',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF2F9469),
@@ -162,26 +171,22 @@ class _CartScreenState extends State<CartScreen> {
                 height: mediaQuery.size.height * 0.43,
                 alignment: Alignment.topLeft,
                 child: Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        newCard(mediaQuery),
-                        newCard(mediaQuery),
-                        newCard(mediaQuery),
-                        newCard(mediaQuery),
-                        newCard(mediaQuery),
-                        newCard(mediaQuery),
-                        newCard(mediaQuery),
-                        newCard(mediaQuery),
-                        newCard(mediaQuery),
-                        newCard(mediaQuery),
-                        newCard(mediaQuery),
-                        newCard(mediaQuery),
-                        newCard(mediaQuery),
-                      ],
-                    ),
-                  ),
-                ),
+                    child: context.watch<UserCart>().cartProducts.isEmpty
+                        ? Center(
+                            child: Text(
+                            "Shopping Cart Empty",
+                            style: TextStyle(
+                                fontSize: mediaQuery.size.width * 0.05,
+                                color: Colors.black),
+                          ))
+                        : ListView(
+                            children: context
+                                .watch<UserCart>()
+                                .cartProducts
+                                .map((data) => newCard(mediaQuery, data.name,
+                                    data.price, data.imageUrl, 1))
+                                .toList(),
+                          )),
               ),
             ],
           ),

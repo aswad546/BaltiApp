@@ -4,7 +4,14 @@ import '../models/cart.dart';
 import '../models/cart_item.dart';
 import '../models/product.dart';
 
-class Cart with ChangeNotifier {
+class UserCart with ChangeNotifier {
+  final String authToken;
+  final String userId;
+  UserCart({
+    required this.authToken,
+    required this.cartProducts,
+    required this.userId,
+  });
   List<Product> cartProducts = [];
 
   List<Product> get getCartProducts {

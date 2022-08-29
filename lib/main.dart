@@ -1,10 +1,15 @@
 import 'package:balti_app/pages/seller/add_business.dart';
 import 'package:balti_app/pages/seller/add_product.dart';
 import 'package:balti_app/pages/seller/business_list.dart';
+import 'package:balti_app/pages/seller/feedback.dart';
+import 'package:balti_app/pages/seller/order_approval.dart';
+import 'package:balti_app/pages/seller/order_completed.dart';
+import 'package:balti_app/pages/seller/order_in_progress.dart';
+import 'package:balti_app/pages/seller/order_list.dart';
 import 'package:balti_app/pages/seller/seller_dashboard.dart';
 import 'package:balti_app/pages/user/cart_screen.dart';
+import 'package:balti_app/providers/cart_provider.dart';
 import 'package:balti_app/widgets/DashScreensContent/business_detail.dart';
-import 'package:balti_app/widgets/DashScreensContent/checkout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +25,7 @@ import 'providers/auth_provider.dart';
 import 'providers/business_provider.dart';
 import 'providers/location_provider.dart';
 import 'providers/product_provider.dart';
+import 'providers/feedback_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,6 +70,34 @@ class MyApp extends StatelessWidget {
             userId: auth.userId,
           ),
         ),
+        ChangeNotifierProxyProvider<Auth, FeedbackItems>(
+          create: (_) => FeedbackItems(
+            authToken: '',
+            feedbackItems: [],
+            userId: '',
+          ),
+          update: (ctx, auth, previousFeebackItems) => FeedbackItems(
+            authToken: 'auth.token!',
+            feedbackItems: previousFeebackItems == null
+                ? []
+                : previousFeebackItems.getFeedbackItems,
+            userId: auth.userId,
+          ),
+        ),
+        ChangeNotifierProxyProvider<Auth, UserCart>(
+          create: (_) => UserCart(
+            authToken: '',
+            cartProducts: [],
+            userId: '',
+          ),
+          update: (ctx, auth, previousCartProducts) => UserCart(
+            authToken: 'auth.token!',
+            cartProducts: previousCartProducts == null
+                ? []
+                : previousCartProducts.getCartProducts,
+            userId: auth.userId,
+          ),
+        ),
         ChangeNotifierProvider<Location>(
           create: (_) => Location(),
         ),
@@ -93,10 +127,10 @@ class MyApp extends StatelessWidget {
             ),
           ),
           routes: {
-            '/': (ctx) => const SellerDashboard(
-                  userId: "61607aa83335d4dd8e75ddc7",
-                ),
-            // '/': (ctx) => const UserDashScreen(),
+            // '/': (ctx) => const SellerDashboard(
+            //       userId: "61607aa83335d4dd8e75ddc7",
+            //     ),
+            '/': (ctx) => const FeedBack(),
             // SignUpScreen.routeName: (ctx) => const SignUpScreen(),
             // MapScreen.routeName: (context) => const MapScreen()
           },

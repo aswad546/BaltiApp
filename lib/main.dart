@@ -1,7 +1,9 @@
 import 'package:balti_app/pages/seller/add_business.dart';
 import 'package:balti_app/pages/seller/add_product.dart';
 import 'package:balti_app/pages/seller/business_list.dart';
+import 'package:balti_app/pages/seller/feedback.dart';
 import 'package:balti_app/pages/seller/order_approval.dart';
+import 'package:balti_app/pages/seller/order_completed.dart';
 import 'package:balti_app/pages/seller/order_in_progress.dart';
 import 'package:balti_app/pages/seller/order_list.dart';
 import 'package:balti_app/pages/seller/seller_dashboard.dart';
@@ -23,6 +25,7 @@ import 'providers/auth_provider.dart';
 import 'providers/business_provider.dart';
 import 'providers/location_provider.dart';
 import 'providers/product_provider.dart';
+import 'providers/feedback_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,6 +67,20 @@ class MyApp extends StatelessWidget {
             authToken: 'auth.token!',
             products:
                 previousProducts == null ? [] : previousProducts.getProducts,
+            userId: auth.userId,
+          ),
+        ),
+        ChangeNotifierProxyProvider<Auth, FeedbackItems>(
+          create: (_) => FeedbackItems(
+            authToken: '',
+            feedbackItems: [],
+            userId: '',
+          ),
+          update: (ctx, auth, previousFeebackItems) => FeedbackItems(
+            authToken: 'auth.token!',
+            feedbackItems: previousFeebackItems == null
+                ? []
+                : previousFeebackItems.getFeedbackItems,
             userId: auth.userId,
           ),
         ),
@@ -113,7 +130,7 @@ class MyApp extends StatelessWidget {
             // '/': (ctx) => const SellerDashboard(
             //       userId: "61607aa83335d4dd8e75ddc7",
             //     ),
-            '/': (ctx) => const OrderApproval(),
+            '/': (ctx) => const FeedBack(),
             // SignUpScreen.routeName: (ctx) => const SignUpScreen(),
             // MapScreen.routeName: (context) => const MapScreen()
           },

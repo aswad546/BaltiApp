@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:balti_app/pages/seller/add_business.dart';
 import 'package:flutter/foundation.dart';
 
 import '../models/business.dart';
@@ -22,6 +21,7 @@ class Businesses with ChangeNotifier {
   }
 
   Future<void> findByUserId(String id) async {
+    businesses = [];
     final response = await http.get(
         Uri.parse('https://balti-api.herokuapp.com/api/businesses/list/$id'));
 
@@ -47,6 +47,7 @@ class Businesses with ChangeNotifier {
     //Send Api call to server for add
     final response = await http.post(
       Uri.parse('https://balti-api.herokuapp.com/api/businesses'),
+      headers: {"Content-Type": "application/json"},
       body: jsonEncode({
         "user": business.ownerId,
         "name": business.name,
@@ -63,16 +64,15 @@ class Businesses with ChangeNotifier {
     print(response.statusCode);
     var jsonResponse = jsonDecode(response.body);
     print(jsonResponse);
-    if (response.statusCode == 201) {
-      // If the server did return a 201 CREATED response,
-      // then parse the JSON.
+    if (response.statusCode == 200) {
+      print("Business Created");
       businesses.add(Business.fromJson(jsonResponse));
+      notifyListeners();
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       throw Exception('Failed to create business.');
     }
-    notifyListeners();
   }
 
   Future<void> editBusiness(Business business) async {
@@ -80,24 +80,50 @@ class Businesses with ChangeNotifier {
     final response = await http.put(
       Uri.parse(
           'https://balti-api.herokuapp.com/api/businesses/${business.id}'),
-      body: jsonEncode(business),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "user": business.ownerId,
+        "name": business.name,
+        "type": business.type,
+        "description": business.description,
+        "image": business.imageUrl,
+        "phoneNumber": business.phoneNumber,
+        "delivery_charges": business.deliveryCharges,
+        "latitude": business.lat,
+        "longitude": business.lng,
+        "locationDesc": business.locationDescription,
+      }),
     );
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
+      print("Successfully edited business");
       print(jsonDecode(response.body));
       // return jsonDecode(response.body).id;
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
-      throw Exception('Failed to create business.');
+      throw Exception('Failed to edit business.');
     }
     notifyListeners();
   }
 
   Future<void> deleteBusiness(String id) async {
     //Send Api call to server for delete
+    final response = await http.delete(
+        Uri.parse('https://balti-api.herokuapp.com/api/businesses/$id'));
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print("Successfully deleted business");
+      print(jsonDecode(response.body));
+      // return jsonDecode(response.body).id;
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to edit business.');
+    }
     notifyListeners();
   }
 

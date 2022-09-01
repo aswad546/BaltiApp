@@ -26,6 +26,8 @@ class _AddBusinessState extends State<AddBusiness> {
 
   final nameController = TextEditingController();
   final phoneNumberController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final typeController = TextEditingController();
   final addressController = TextEditingController();
   final ntnController = TextEditingController();
 
@@ -50,6 +52,8 @@ class _AddBusinessState extends State<AddBusiness> {
   void dispose() {
     nameController.dispose();
     phoneNumberController.dispose();
+    descriptionController.dispose();
+    typeController.dispose();
     addressController.dispose();
     ntnController.dispose();
     super.dispose();
@@ -177,6 +181,26 @@ class _AddBusinessState extends State<AddBusiness> {
                       height: mediaQuery.size.height * 0.02069,
                     ),
                     AuthFormField(
+                      hintText: "Type of product/service you provide",
+                      formFieldKey: const ValueKey('type'),
+                      fieldLabel: 'Type',
+                      fieldController: typeController,
+                    ),
+                    SizedBox(
+                      height: mediaQuery.size.height * 0.01379,
+                    ),
+                    AuthFormField(
+                      hintText: "A brief description of your product",
+                      formFieldKey: const ValueKey('Description'),
+                      fieldLabel: 'Description',
+                      fieldController: descriptionController,
+                      minLines: 5,
+                      maxLines: 10,
+                    ),
+                    SizedBox(
+                      height: mediaQuery.size.height * 0.02069,
+                    ),
+                    AuthFormField(
                       hintText: "NTN",
                       formFieldKey: const ValueKey('ntn'),
                       fieldLabel: 'NTN (optional)',
@@ -202,10 +226,10 @@ class _AddBusinessState extends State<AddBusiness> {
                                   ownerId: widget.userId,
                                   name: nameController.text,
                                   phoneNumber: phoneNumberController.text,
-                                  type: "type",
+                                  type: typeController.text,
                                   lat: 1,
                                   lng: 1,
-                                  description: "description",
+                                  description: descriptionController.text,
                                   imageUrl: "imageURL",
                                   rating: 0,
                                   deliveryCharges: 0,

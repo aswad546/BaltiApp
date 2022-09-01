@@ -25,6 +25,8 @@ class _EditBusinessState extends State<EditBusiness> {
 
   final nameController = TextEditingController();
   final phoneNumberController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final typeController = TextEditingController();
   final addressController = TextEditingController();
   final ntnController = TextEditingController();
 
@@ -49,6 +51,8 @@ class _EditBusinessState extends State<EditBusiness> {
   void dispose() {
     nameController.dispose();
     phoneNumberController.dispose();
+    descriptionController.dispose();
+    typeController.dispose();
     addressController.dispose();
     ntnController.dispose();
     super.dispose();
@@ -56,6 +60,12 @@ class _EditBusinessState extends State<EditBusiness> {
 
   @override
   Widget build(BuildContext context) {
+    nameController.text = widget.business.name;
+    descriptionController.text = widget.business.description;
+    phoneNumberController.text = widget.business.phoneNumber;
+    typeController.text = widget.business.type;
+    addressController.text = widget.business.locationDescription;
+    imageFile = File.fromUri(Uri.parse(widget.business.imageUrl));
     MediaQueryData mediaQuery = MediaQuery.of(context);
     TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
@@ -140,7 +150,7 @@ class _EditBusinessState extends State<EditBusiness> {
                       height: mediaQuery.size.height * 0.01379,
                     ),
                     AuthFormField(
-                      hintText: "Username",
+                      hintText: "Name",
                       formFieldKey: const ValueKey('username'),
                       fieldLabel: 'Name',
                       fieldIcon: const Icon(
@@ -176,6 +186,26 @@ class _EditBusinessState extends State<EditBusiness> {
                       height: mediaQuery.size.height * 0.02069,
                     ),
                     AuthFormField(
+                      hintText: "What type of product/service do you provide?",
+                      formFieldKey: const ValueKey('type'),
+                      fieldLabel: 'Type',
+                      fieldController: typeController,
+                    ),
+                    SizedBox(
+                      height: mediaQuery.size.height * 0.01379,
+                    ),
+                    AuthFormField(
+                      hintText: "A brief description of your product",
+                      formFieldKey: const ValueKey('Description'),
+                      fieldLabel: 'Description',
+                      fieldController: descriptionController,
+                      minLines: 5,
+                      maxLines: 10,
+                    ),
+                    SizedBox(
+                      height: mediaQuery.size.height * 0.02069,
+                    ),
+                    AuthFormField(
                       hintText: "NTN",
                       formFieldKey: const ValueKey('ntn'),
                       fieldLabel: 'NTN (optional)',
@@ -194,13 +224,19 @@ class _EditBusinessState extends State<EditBusiness> {
                       onPressHandler: () async {
                         if (_formKey.currentState!.validate()) {
                           await Provider.of<Businesses>(context, listen: false)
-                              .fetchAndSetBusinesses(
-                                  // nameController.text,
-                                  // phoneNumberController.text,
-                                  // addressController.text,
-                                  // ntnController.text,
-                                  // imageFile,
-                                  );
+                              .editBusiness(Business(
+                                  id: widget.business.id,
+                                  ownerId: widget.business.ownerId,
+                                  name: nameController.text,
+                                  phoneNumber: phoneNumberController.text,
+                                  type: typeController.text,
+                                  lat: widget.business.lat,
+                                  lng: widget.business.lng,
+                                  description: descriptionController.text,
+                                  imageUrl: "imageURL",
+                                  rating: 0,
+                                  deliveryCharges: 0,
+                                  locationDescription: addressController.text));
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(
@@ -216,21 +252,11 @@ class _EditBusinessState extends State<EditBusiness> {
                       color: const Color(0xffD11B26),
                       buttonLabel: "Delete",
                       onPressHandler: () async {
-                        if (_formKey.currentState!.validate()) {
-                          await Provider.of<Businesses>(context, listen: false)
-                              .fetchAndSetBusinesses(
-                                  // nameController.text,
-                                  // phoneNumberController.text,
-                                  // addressController.text,
-                                  // ntnController.text,
-                                  // imageFile,
-                                  );
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => ProductList()),
-                          // );
-                        }
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => ProductList()),
+                        // );
                       },
                     ),
                   ],

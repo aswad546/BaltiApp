@@ -320,7 +320,19 @@ class _EditProductState extends State<EditProduct> {
                       buttonLabel: "Update",
                       onPressHandler: () async {
                         if (_formKey.currentState!.validate()) {
-                          Navigator.pop(context);
+                          await Provider.of<Products>(context, listen: false)
+                              .editProduct(Product(
+                                  id: widget.product.id,
+                                  name: nameController.text,
+                                  businessId: widget.product.businessId,
+                                  description: descriptionController.text,
+                                  price: double.parse(priceController.text),
+                                  rating: 0,
+                                  duration:
+                                      double.parse(durationController.text),
+                                  imageUrl: "assets/images/burger.jpg",
+                                  images: images,
+                                  videos: videos));
                         }
                       },
                     ),

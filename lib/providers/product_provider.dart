@@ -30,6 +30,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> findByBusinessId(String id) async {
+    products = [];
     final response = await http.get(Uri.parse(
         'https://balti-api.herokuapp.com/api/businesses/listProducts/$id'));
 
@@ -59,39 +60,76 @@ class Products with ChangeNotifier {
       "name": product.name,
       "price": product.price,
       "description": product.description,
-      "duration": product.duration,
+      // "duration": product.duration,
       // "rating": 0,
       "images": product.images,
       "videos": product.videos,
     });
-    print(bod);
     final response = await http.post(
       Uri.parse('https://balti-api.herokuapp.com/api/products'),
+      headers: {"Content-Type": "application/json"},
       body: bod,
     );
     print(response.statusCode);
     print(jsonDecode(response.body));
-    if (response.statusCode == 201) {
-      // If the server did return a 201 CREATED response,
-      // then parse the JSON.
+    if (response.statusCode == 200) {
+      print("Product Created");
       Product newProduct = Product.fromJson(jsonDecode(response.body));
       products.add(newProduct);
       return newProduct;
+      notifyListeners();
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
-      throw Exception('Failed to create business.');
+      throw Exception('Failed to create product.');
     }
-    notifyListeners();
   }
 
   Future<void> editProduct(Product product) async {
     //Send Api call to server for edit
+    var bod = jsonEncode({
+      "business_id": product.businessId,
+      "name": product.name,
+      "price": product.price,
+      "description": product.description,
+      // "duration": product.duration,
+      // "rating": 0,
+      "images": product.images,
+      "videos": product.videos,
+    });
+    final response = await http.put(
+      Uri.parse('https://balti-api.herokuapp.com/api/products/${product.id}'),
+      headers: {"Content-Type": "application/json"},
+      body: bod,
+    );
+    print(response.statusCode);
+    print(jsonDecode(response.body));
+    if (response.statusCode == 200) {
+      print("Product Updated");
+      notifyListeners();
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to create product.');
+    }
     notifyListeners();
   }
 
   Future<void> deleteProduct(String id) async {
     //Send Api call to server for delete
+    final response = await http
+        .delete(Uri.parse('https://balti-api.herokuapp.com/api/products/$id'));
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print("Successfully deleted product");
+      print(jsonDecode(response.body));
+      // return jsonDecode(response.body).id;
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to edit business.');
+    }
     notifyListeners();
   }
 

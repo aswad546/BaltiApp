@@ -22,12 +22,15 @@ class ProductList extends StatefulWidget {
 }
 
 class _ProductListState extends State<ProductList> {
+  late Future<void> getProducts;
+
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () async {
+    getProducts = Future.delayed(Duration.zero, () async {
       // await Provider.of<Products>(context, listen: false).fetchAndSetProducts();
-      await Provider.of<Products>(context, listen: false).findByBusinessId(widget.businessId);
+      await Provider.of<Products>(context, listen: false)
+          .findByBusinessId(widget.businessId);
     });
   }
 
@@ -89,36 +92,52 @@ class _ProductListState extends State<ProductList> {
             SizedBox(
               height: mediaQuery.size.height * 0.02,
             ),
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 1 / 1.08,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 15,
-              ),
-              itemCount: products.length,
-              itemBuilder: (BuildContext ctx, int i) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EditProduct(
-                                product: products[i],
-                              )),
-                    );
+            Expanded(
+              child: SingleChildScrollView(
+                child: FutureBuilder(
+                  future: getProducts,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 1 / 1.08,
+                          crossAxisSpacing: 15,
+                          mainAxisSpacing: 15,
+                        ),
+                        itemCount: products.length,
+                        itemBuilder: (BuildContext ctx, int i) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EditProduct(
+                                          product: products[i],
+                                        )),
+                              );
+                            },
+                            child: ProductCard(
+                              productName: products[i].name,
+                              price: products[i].price.toInt().toString(),
+                              delay: '${products[i].duration.toInt()} min',
+                              isFav: false,
+                              imageUrl: "products[i].images[0]",
+                            ),
+                          );
+                        },
+                      );
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
                   },
-                  child: ProductCard(
-                    productName: products[i].name,
-                    price: products[i].price.toInt().toString(),
-                    delay: '${products[i].duration.toInt()} min',
-                    isFav: false,
-                    imageUrl: products[i].images[0],
-                  ),
-                );
-              },
+                ),
+              ),
             ),
           ])),
       floatingActionButton: Container(

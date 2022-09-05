@@ -73,14 +73,18 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Auth, FeedbackItems>(
           create: (_) => FeedbackItems(
             authToken: '',
-            feedbackItems: [],
+            businessFeedback: [],
+            productFeedback: [],
             userId: '',
           ),
           update: (ctx, auth, previousFeebackItems) => FeedbackItems(
             authToken: 'auth.token!',
-            feedbackItems: previousFeebackItems == null
+            businessFeedback: previousFeebackItems == null
                 ? []
-                : previousFeebackItems.getFeedbackItems,
+                : previousFeebackItems.getBusinessFeedback,
+            productFeedback: previousFeebackItems == null
+                ? []
+                : previousFeebackItems.getProductFeedback,
             userId: auth.userId,
           ),
         ),

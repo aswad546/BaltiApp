@@ -4,8 +4,9 @@ import 'dart:math' as math;
 import '../../utils/size_config.dart';
 
 class OrdersInProgress extends StatefulWidget {
-  const OrdersInProgress({Key? key}) : super(key: key);
+  const OrdersInProgress({Key? key, required this.userId}) : super(key: key);
 
+  final String userId;
   @override
   State<OrdersInProgress> createState() => _OrdersInProgressState();
 }

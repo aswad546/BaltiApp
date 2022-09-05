@@ -1,4 +1,8 @@
 // ignore: file_names
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 
 import '../models/feedback_item.dart';
@@ -9,14 +13,21 @@ class FeedbackItems with ChangeNotifier {
 
   FeedbackItems({
     required this.authToken,
-    required this.feedbackItems,
+    required this.businessFeedback,
+    required this.productFeedback,
     required this.userId,
   });
 
-  List<FeedbackItem> feedbackItems = [];
+  List<FeedbackItem> businessFeedback = [];
 
-  List<FeedbackItem> get getFeedbackItems {
-    return [...feedbackItems];
+  List<FeedbackItem> productFeedback = [];
+
+  List<FeedbackItem> get getBusinessFeedback {
+    return [...businessFeedback];
+  }
+
+  List<FeedbackItem> get getProductFeedback {
+    return [...productFeedback];
   }
 
   Future<void> addFeedbackItem(FeedbackItem feedbackItem) async {
@@ -30,13 +41,55 @@ class FeedbackItems with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deleteFeedbackItem(String id) async {
-    //Send Api call to server for delete
+  Future<void> getFeedbackOfBusiness(String id) async {
+    businessFeedback = [];
+    final response = await http.get(
+        Uri.parse('https://balti-api.herokuapp.com/api/feedbacks/$id/bus'));
+
+    print("********************");
+    var jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      var jsonResponse = jsonDecode(response.body);
+      for (var i = 0; i < jsonResponse.length; i = i + 1) {
+        businessFeedback.add(FeedbackItem.fromJson(jsonResponse[i]));
+      }
+      // return businesses.firstWhere((bus) => bus.id == id);
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load feedback');
+    }
+    notifyListeners();
+  }
+
+  Future<void> getFeedbackOfProduct(String id) async {
+    productFeedback = [];
+    final response = await http.get(
+        Uri.parse('https://balti-api.herokuapp.com/api/feedbacks/$id/prod'));
+
+    print("********************");
+    var jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      for (var i = 0; i < jsonResponse.length; i = i + 1) {
+        productFeedback.add(FeedbackItem.fromJson(jsonResponse[i]));
+      }
+      // return businesses.firstWhere((bus) => bus.id == id);
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load feedback');
+    }
     notifyListeners();
   }
 
   Future<void> fetchAndSetFeedbackItems() async {
-    feedbackItems = [
+    businessFeedback = [
       FeedbackItem(
           id: '1',
           businessId: '1',

@@ -16,4 +16,15 @@ class FeedbackItem with ChangeNotifier {
     required this.comment,
     required this.rating,
   });
+
+  factory FeedbackItem.fromJson(Map<String, dynamic> json) {
+    return FeedbackItem(
+      id: json['_id'],
+      userId: json['user_id'],
+      businessId: json['business_id'],
+      prodId: json['prod_id'],
+      comment: json['comment'],
+      rating: json['rating'],
+    );
+  }
 }

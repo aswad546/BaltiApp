@@ -1,12 +1,16 @@
+import 'package:balti_app/models/business.dart';
 import 'package:balti_app/providers/feedback_provider.dart';
 import 'package:balti_app/widgets/star_display.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
+import '../../providers/business_provider.dart';
 import '../../utils/size_config.dart';
 
 class FeedBack extends StatefulWidget {
-  const FeedBack({Key? key}) : super(key: key);
+  const FeedBack({Key? key, required this.userId}) : super(key: key);
+  
+  final String userId;
 
   @override
   State<FeedBack> createState() => _FeedBackState();
@@ -19,8 +23,11 @@ class _FeedBackState extends State<FeedBack> {
     void initState() {
       super.initState();
       // context.watch<BusinessesList>().getBusinesses(phoneNumber);
+      Provider.of<Businesses>(context, listen: false).findByUserId(widget.userId);
       Provider.of<FeedbackItems>(context, listen: false)
-          .fetchAndSetFeedbackItems;
+          .getFeedbackOfBusiness(Provider.of<Businesses>(
+      context,
+    ).businesses[0].id);
     }
 
     @override
@@ -53,25 +60,24 @@ class _FeedBackState extends State<FeedBack> {
                             fontSize: mediaQuery.size.width * 0.05,
                             fontWeight: FontWeight.w500)),
                     rating < 3
-                        ? Container(
-                            child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Icon(
-                                  Icons.thumb_up_alt_rounded,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Icon(
-                                  Icons.thumb_down_alt_rounded,
-                                  color: Colors.red,
-                                ),
-                              )
-                            ],
-                          ))
+                        ? Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Icon(
+                              Icons.thumb_up_alt_rounded,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Icon(
+                              Icons.thumb_down_alt_rounded,
+                              color: Colors.red,
+                            ),
+                          )
+                        ],
+                          )
                         : Container(
                             child: Row(
                             children: [
@@ -182,7 +188,7 @@ class _FeedBackState extends State<FeedBack> {
               Container(
                 height: mediaQuery.size.height * 0.6,
                 child: Expanded(
-                    child: context.watch<FeedbackItems>().feedbackItems.isEmpty
+                    child: context.watch<FeedbackItems>().businessFeedback.isEmpty
                         ? Center(
                             child: Text(
                             "No Feedbacks to display",
@@ -193,7 +199,7 @@ class _FeedBackState extends State<FeedBack> {
                         : ListView(
                             children: context
                                 .watch<FeedbackItems>()
-                                .feedbackItems
+                                .businessFeedback
                                 .map((data) => FeedbackItemCard(
                                     mediaQuery,
                                     data.businessId,

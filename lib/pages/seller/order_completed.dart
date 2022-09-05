@@ -5,8 +5,9 @@ import '../../utils/size_config.dart';
 import '../../widgets/custom_icon_button.dart';
 
 class OrderCompleted extends StatefulWidget {
-  const OrderCompleted({Key? key}) : super(key: key);
+  const OrderCompleted({Key? key, required this.userId}) : super(key: key);
 
+  final String userId;
   @override
   State<OrderCompleted> createState() => _OrderCompletedState();
 }

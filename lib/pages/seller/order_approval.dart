@@ -5,8 +5,9 @@ import '../../utils/size_config.dart';
 import '../../widgets/custom_icon_button.dart';
 
 class OrderApproval extends StatefulWidget {
-  const OrderApproval({Key? key}) : super(key: key);
+  const OrderApproval({Key? key, required this.userId}) : super(key: key);
 
+  final String userId;
   @override
   State<OrderApproval> createState() => _OrderApprovalState();
 }
@@ -123,7 +124,6 @@ class _OrderApprovalState extends State<OrderApproval> {
     TextTheme textTheme = Theme.of(context).textTheme;
     MediaQueryData mediaQuery = MediaQuery.of(context);
 
-    
     return Scaffold(
       appBar: AppBar(
           elevation: 0,

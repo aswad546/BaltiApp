@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:balti_app/pages/seller/business_list.dart';
+import 'package:balti_app/pages/seller/feedback.dart';
+import 'package:balti_app/pages/seller/order_list.dart';
 import 'package:balti_app/pages/user/user_dash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -95,10 +97,10 @@ class _SellerDashboardState extends State<SellerDashboard> {
               ),
               FloatingActionButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => const SecondRoute()),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => OrderList(userId: widget.userId)),
+                  );
                 },
                 backgroundColor: const Color.fromARGB(193, 27, 209, 161),
                 shape: RoundedRectangleBorder(
@@ -129,10 +131,10 @@ class _SellerDashboardState extends State<SellerDashboard> {
               ),
               FloatingActionButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => const SecondRoute()),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FeedBack(userId: widget.userId)),
+                  );
                 },
                 backgroundColor: const Color.fromARGB(193, 27, 209, 161),
                 shape: RoundedRectangleBorder(
